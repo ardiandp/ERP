@@ -12,4 +12,24 @@ class FinancialAccount extends Model
     {
         return $this->belongsTo(Bank::class);
     }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
+    public function bankTransactions()
+    {
+        return $this->hasMany(BankTransaction::class);
+    }
 }

@@ -3,6 +3,7 @@
 use App\Models\Bank;
 use App\Models\Brand;
 use App\Models\CommissionRule;
+use App\Models\ExpenseCategory;
 use App\Models\FinancialAccount;
 use App\Models\PaymentMethod;
 use App\Models\Product;
@@ -159,6 +160,16 @@ return [
                 'commission_value' => ['label' => 'Value', 'type' => 'number', 'rules' => ['required', 'numeric']],
                 'effective_date' => ['label' => 'Effective Date', 'type' => 'date', 'rules' => ['required', 'date']],
                 'end_date' => ['label' => 'End Date', 'type' => 'date', 'rules' => ['nullable', 'date', 'after_or_equal:effective_date']],
+                'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['ACTIVE', 'INACTIVE'], 'rules' => ['required']],
+            ],
+        ],
+        'expense-categories' => [
+            'title' => 'Expense Categories',
+            'model' => ExpenseCategory::class,
+            'fields' => [
+                'code' => ['label' => 'Code', 'rules' => ['required'], 'unique' => true],
+                'name' => ['label' => 'Name', 'rules' => ['required']],
+                'parent_id' => ['label' => 'Parent ID', 'type' => 'number', 'rules' => ['nullable', 'exists:expense_categories,id']],
                 'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['ACTIVE', 'INACTIVE'], 'rules' => ['required']],
             ],
         ],

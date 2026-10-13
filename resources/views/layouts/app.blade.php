@@ -67,6 +67,19 @@
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('employees.index') }}">Employees</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Finance</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('finance.accounts') }}">Cash & Bank</a></li>
+                        <li><a class="dropdown-item" href="{{ route('bank-transactions.index') }}">Bank Mutations</a></li>
+                        <li><a class="dropdown-item" href="{{ route('bank-reconciliations.index') }}">Reconciliations</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ route('bills.index') }}">Bills</a></li>
+                        <li><a class="dropdown-item" href="{{ route('bill-templates.index') }}">Bill Templates</a></li>
+                        <li><a class="dropdown-item" href="{{ route('masterdata.index', 'expense-categories') }}">Expense Categories</a></li>
+                        <li><a class="dropdown-item" href="{{ route('expenses.index') }}">Expenses</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Users</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('roles.index') }}">Roles</a></li>
             </ul>

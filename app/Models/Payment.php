@@ -24,4 +24,9 @@ class Payment extends Model
     {
         return $this->morphTo(__FUNCTION__, 'transaction_type', 'transaction_id');
     }
+
+    public function reconciliations()
+    {
+        return $this->hasMany(BankReconciliation::class);
+    }
 }

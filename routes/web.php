@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BankReconciliationController;
+use App\Http\Controllers\BankTransactionController;
+use App\Http\Controllers\BillController;
+use App\Http\Controllers\BillTemplateController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CommissionController;
@@ -9,6 +13,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\GoodsReceiptController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MasterCrudController;
@@ -99,4 +105,28 @@ Route::middleware('auth')->group(function () {
     Route::patch('bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.status');
     Route::post('bookings/{booking}/items', [BookingController::class, 'storeItem'])->name('bookings.items.store');
     Route::delete('bookings/{booking}/items/{item}', [BookingController::class, 'destroyItem'])->name('bookings.items.destroy');
+
+    Route::get('finance/accounts', [FinanceController::class, 'accounts'])->name('finance.accounts');
+
+    Route::get('bank-transactions', [BankTransactionController::class, 'index'])->name('bank-transactions.index');
+    Route::get('bank-transactions/create', [BankTransactionController::class, 'create'])->name('bank-transactions.create');
+    Route::post('bank-transactions', [BankTransactionController::class, 'store'])->name('bank-transactions.store');
+
+    Route::get('bank-reconciliations', [BankReconciliationController::class, 'index'])->name('bank-reconciliations.index');
+    Route::get('bank-reconciliations/create', [BankReconciliationController::class, 'create'])->name('bank-reconciliations.create');
+    Route::post('bank-reconciliations', [BankReconciliationController::class, 'store'])->name('bank-reconciliations.store');
+
+    Route::resource('bill-templates', BillTemplateController::class)->except('show');
+
+    Route::get('bills', [BillController::class, 'index'])->name('bills.index');
+    Route::get('bills/generate', [BillController::class, 'generate'])->name('bills.generate');
+    Route::post('bills/generate', [BillController::class, 'storeGenerate'])->name('bills.store-generate');
+    Route::get('bills/{bill}', [BillController::class, 'show'])->name('bills.show');
+    Route::patch('bills/{bill}/pay', [BillController::class, 'pay'])->name('bills.pay');
+
+    Route::get('expenses', [ExpenseController::class, 'index'])->name('expenses.index');
+    Route::get('expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
+    Route::post('expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+    Route::get('expenses/{expense}', [ExpenseController::class, 'show'])->name('expenses.show');
+    Route::patch('expenses/{expense}/approve', [ExpenseController::class, 'approve'])->name('expenses.approve');
 });
