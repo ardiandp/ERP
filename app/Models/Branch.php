@@ -12,4 +12,19 @@ class Branch extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function warehouses()
+    {
+        return $this->hasMany(Warehouse::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    public function salesTransactions()
+    {
+        return $this->hasMany(SalesTransaction::class);
+    }
 }

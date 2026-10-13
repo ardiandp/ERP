@@ -41,6 +41,26 @@
                         <li><a class="dropdown-item" href="{{ route('masterdata.index', 'payment-methods') }}">Payment Method</a></li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Inventory</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('warehouses.index') }}">Warehouse</a></li>
+                        <li><a class="dropdown-item" href="{{ route('inventory.stock') }}">Stock</a></li>
+                        <li><a class="dropdown-item" href="{{ route('inventory.movements') }}">Movements</a></li>
+                        <li><a class="dropdown-item" href="{{ route('inventory.adjustment.create') }}">Adjustment</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Sales & Booking</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('sales.create') }}">POS / Kasir</a></li>
+                        <li><a class="dropdown-item" href="{{ route('sales.index') }}">Sales</a></li>
+                        <li><a class="dropdown-item" href="{{ route('bookings.index') }}">Bookings</a></li>
+                        <li><a class="dropdown-item" href="{{ route('sales.returns.index') }}">Returns</a></li>
+                        <li><a class="dropdown-item" href="{{ route('commissions.index') }}">Commissions</a></li>
+                        <li><a class="dropdown-item" href="{{ route('masterdata.index', 'commission-rules') }}">Commission Rules</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('employees.index') }}">Employees</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Users</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('roles.index') }}">Roles</a></li>
@@ -58,5 +78,6 @@
     @yield('content')
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@stack('scripts')
 </body>
 </html>

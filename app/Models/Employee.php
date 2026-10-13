@@ -42,4 +42,14 @@ class Employee extends Model
     {
         return $this->hasMany(EmployeeInsurance::class);
     }
+
+    public function commissions()
+    {
+        return $this->hasMany(EmployeeCommission::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(BookingItem::class);
+    }
 }

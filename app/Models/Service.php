@@ -20,4 +20,9 @@ class Service extends Model
     {
         return $this->hasMany(ServicePrice::class);
     }
+
+    public function commissionRules()
+    {
+        return $this->hasMany(CommissionRule::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Models\Bank;
 use App\Models\Brand;
+use App\Models\CommissionRule;
 use App\Models\FinancialAccount;
 use App\Models\PaymentMethod;
 use App\Models\Product;
@@ -145,6 +146,19 @@ return [
                 'name' => ['label' => 'Name', 'rules' => ['required']],
                 'method_type' => ['label' => 'Type', 'rules' => ['required']],
                 'financial_account_id' => ['label' => 'Financial Account ID', 'type' => 'number', 'rules' => ['nullable', 'exists:financial_accounts,id']],
+                'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['ACTIVE', 'INACTIVE'], 'rules' => ['required']],
+            ],
+        ],
+        'commission-rules' => [
+            'title' => 'Commission Rules',
+            'model' => CommissionRule::class,
+            'fields' => [
+                'employee_id' => ['label' => 'Employee ID', 'type' => 'number', 'rules' => ['nullable', 'exists:employees,id']],
+                'service_id' => ['label' => 'Service ID', 'type' => 'number', 'rules' => ['nullable', 'exists:services,id']],
+                'commission_type' => ['label' => 'Type', 'type' => 'select', 'options' => ['PERCENTAGE', 'FIXED'], 'rules' => ['required']],
+                'commission_value' => ['label' => 'Value', 'type' => 'number', 'rules' => ['required', 'numeric']],
+                'effective_date' => ['label' => 'Effective Date', 'type' => 'date', 'rules' => ['required', 'date']],
+                'end_date' => ['label' => 'End Date', 'type' => 'date', 'rules' => ['nullable', 'date', 'after_or_equal:effective_date']],
                 'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['ACTIVE', 'INACTIVE'], 'rules' => ['required']],
             ],
         ],
