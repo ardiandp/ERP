@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             ServiceCategorySeeder::class,
             ExpenseCategorySeeder::class,
             PaymentMethodSeeder::class,
+            SalaryComponentSeeder::class,
+            ShiftSeeder::class,
             SupplierSeeder::class,
             WarehouseSeeder::class,
             ProductSeeder::class,
@@ -27,6 +29,7 @@ class DatabaseSeeder extends Seeder
             CommissionRuleSeeder::class,
             FinancialAccountSeeder::class,
             BillTemplateSeeder::class,
+            PayslipTemplateSeeder::class,
             AdminUserSeeder::class,
             SettingsSeeder::class,
         ]);

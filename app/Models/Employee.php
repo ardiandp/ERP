@@ -52,4 +52,39 @@ class Employee extends Model
     {
         return $this->hasMany(BookingItem::class);
     }
+
+    public function shifts()
+    {
+        return $this->hasMany(EmployeeShift::class);
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function overtimeRecords()
+    {
+        return $this->hasMany(OvertimeRecord::class);
+    }
+
+    public function salaryStructures()
+    {
+        return $this->hasMany(EmployeeSalaryStructure::class);
+    }
+
+    public function salaryComponents()
+    {
+        return $this->hasMany(EmployeeSalaryComponent::class);
+    }
+
+    public function payrolls()
+    {
+        return $this->hasMany(Payroll::class);
+    }
+
+    public function payslips()
+    {
+        return $this->hasMany(Payslip::class);
+    }
 }

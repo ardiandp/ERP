@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BankReconciliationController;
 use App\Http\Controllers\BankTransactionController;
@@ -18,12 +19,18 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\GoodsReceiptController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MasterCrudController;
+use App\Http\Controllers\OvertimeController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\PayrollPeriodController;
+use App\Http\Controllers\PayslipController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SalaryStructureController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SalesReturnController;
+use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\StockOpnameController;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\UserController;
@@ -129,4 +136,39 @@ Route::middleware('auth')->group(function () {
     Route::post('expenses', [ExpenseController::class, 'store'])->name('expenses.store');
     Route::get('expenses/{expense}', [ExpenseController::class, 'show'])->name('expenses.show');
     Route::patch('expenses/{expense}/approve', [ExpenseController::class, 'approve'])->name('expenses.approve');
+
+    Route::resource('shifts', ShiftController::class)->except('show');
+    Route::post('shifts/assignments', [ShiftController::class, 'assign'])->name('shifts.assign');
+    Route::delete('shifts/assignments/{employee_shift}', [ShiftController::class, 'unassign'])->name('shifts.unassign');
+
+    Route::get('attendances', [AttendanceController::class, 'index'])->name('attendances.index');
+    Route::get('attendances/create', [AttendanceController::class, 'create'])->name('attendances.create');
+    Route::post('attendances', [AttendanceController::class, 'store'])->name('attendances.store');
+
+    Route::get('overtimes', [OvertimeController::class, 'index'])->name('overtimes.index');
+    Route::get('overtimes/create', [OvertimeController::class, 'create'])->name('overtimes.create');
+    Route::post('overtimes', [OvertimeController::class, 'store'])->name('overtimes.store');
+    Route::patch('overtimes/{overtime}/approve', [OvertimeController::class, 'approve'])->name('overtimes.approve');
+
+    Route::get('salary-structures', [SalaryStructureController::class, 'index'])->name('salary-structures.index');
+    Route::get('salary-structures/create', [SalaryStructureController::class, 'create'])->name('salary-structures.create');
+    Route::post('salary-structures', [SalaryStructureController::class, 'store'])->name('salary-structures.store');
+
+    Route::get('payroll-periods', [PayrollPeriodController::class, 'index'])->name('payroll-periods.index');
+    Route::get('payroll-periods/create', [PayrollPeriodController::class, 'create'])->name('payroll-periods.create');
+    Route::post('payroll-periods', [PayrollPeriodController::class, 'store'])->name('payroll-periods.store');
+    Route::get('payroll-periods/{payroll_period}', [PayrollPeriodController::class, 'show'])->name('payroll-periods.show');
+    Route::patch('payroll-periods/{payroll_period}/close', [PayrollPeriodController::class, 'close'])->name('payroll-periods.close');
+    Route::post('payroll-periods/{payroll_period}/generate', [PayrollController::class, 'generate'])->name('payrolls.generate');
+
+    Route::get('payrolls', [PayrollController::class, 'index'])->name('payrolls.index');
+    Route::get('payrolls/{payroll}', [PayrollController::class, 'show'])->name('payrolls.show');
+    Route::post('payrolls/{payroll}/adjust', [PayrollController::class, 'adjust'])->name('payrolls.adjust');
+    Route::patch('payrolls/{payroll}/approve', [PayrollController::class, 'approve'])->name('payrolls.approve');
+    Route::post('payrolls/{payroll}/payslip', [PayrollController::class, 'payslip'])->name('payrolls.payslip');
+    Route::post('payrolls/{payroll}/pay', [PayrollController::class, 'pay'])->name('payrolls.pay');
+
+    Route::get('payslips', [PayslipController::class, 'index'])->name('payslips.index');
+    Route::get('payslips/{payslip}', [PayslipController::class, 'show'])->name('payslips.show');
+    Route::patch('payslips/{payslip}/publish', [PayslipController::class, 'publish'])->name('payslips.publish');
 });

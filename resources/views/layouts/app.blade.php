@@ -68,6 +68,21 @@
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('employees.index') }}">Employees</a></li>
                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">HR & Payroll</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('shifts.index') }}">Shifts</a></li>
+                        <li><a class="dropdown-item" href="{{ route('attendances.index') }}">Attendances</a></li>
+                        <li><a class="dropdown-item" href="{{ route('overtimes.index') }}">Overtime</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ route('salary-structures.index') }}">Salary Structures</a></li>
+                        <li><a class="dropdown-item" href="{{ route('masterdata.index', 'salary-components') }}">Salary Components</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ route('payroll-periods.index') }}">Payroll Periods</a></li>
+                        <li><a class="dropdown-item" href="{{ route('payrolls.index') }}">Payrolls</a></li>
+                        <li><a class="dropdown-item" href="{{ route('payslips.index') }}">Payslips</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Finance</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ route('finance.accounts') }}">Cash & Bank</a></li>

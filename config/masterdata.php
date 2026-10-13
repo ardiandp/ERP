@@ -8,6 +8,7 @@ use App\Models\FinancialAccount;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\SalaryComponent;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\ServicePackage;
@@ -170,6 +171,19 @@ return [
                 'code' => ['label' => 'Code', 'rules' => ['required'], 'unique' => true],
                 'name' => ['label' => 'Name', 'rules' => ['required']],
                 'parent_id' => ['label' => 'Parent ID', 'type' => 'number', 'rules' => ['nullable', 'exists:expense_categories,id']],
+                'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['ACTIVE', 'INACTIVE'], 'rules' => ['required']],
+            ],
+        ],
+        'salary-components' => [
+            'title' => 'Salary Components',
+            'model' => SalaryComponent::class,
+            'fields' => [
+                'code' => ['label' => 'Code', 'rules' => ['required'], 'unique' => true],
+                'name' => ['label' => 'Name', 'rules' => ['required']],
+                'type' => ['label' => 'Type', 'type' => 'select', 'options' => ['EARNING', 'DEDUCTION'], 'rules' => ['required']],
+                'calculation_method' => ['label' => 'Calculation Method', 'type' => 'select', 'options' => ['FIXED', 'PERCENTAGE'], 'rules' => ['required']],
+                'is_taxable' => ['label' => 'Taxable', 'type' => 'select', 'options' => ['0', '1'], 'rules' => ['required']],
+                'is_bpjs' => ['label' => 'BPJS', 'type' => 'select', 'options' => ['0', '1'], 'rules' => ['required']],
                 'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['ACTIVE', 'INACTIVE'], 'rules' => ['required']],
             ],
         ],
