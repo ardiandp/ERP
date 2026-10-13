@@ -10,4 +10,14 @@ class Supplier extends Model
     use SoftDeletes;
 
     protected $fillable = ['supplier_code', 'name', 'contact_person', 'phone', 'email', 'address', 'tax_number', 'payment_terms_days', 'status'];
+
+    public function purchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class);
+    }
+
+    public function goodsReceipts()
+    {
+        return $this->hasMany(GoodsReceipt::class);
+    }
 }

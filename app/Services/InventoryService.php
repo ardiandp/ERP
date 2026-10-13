@@ -56,7 +56,7 @@ class InventoryService
             $productId,
             $delta > 0 ? 'IN' : 'OUT',
             abs($delta),
-            array_merge($options, ['movement_type' => 'ADJUSTMENT', 'allow_negative' => true]),
+            array_merge(['movement_type' => 'ADJUSTMENT', 'allow_negative' => true], $options),
         );
     }
 

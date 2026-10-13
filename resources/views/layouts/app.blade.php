@@ -48,6 +48,11 @@
                         <li><a class="dropdown-item" href="{{ route('inventory.stock') }}">Stock</a></li>
                         <li><a class="dropdown-item" href="{{ route('inventory.movements') }}">Movements</a></li>
                         <li><a class="dropdown-item" href="{{ route('inventory.adjustment.create') }}">Adjustment</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ route('purchase-orders.index') }}">Purchase Orders</a></li>
+                        <li><a class="dropdown-item" href="{{ route('goods-receipts.index') }}">Goods Receipts</a></li>
+                        <li><a class="dropdown-item" href="{{ route('stock-transfers.index') }}">Stock Transfers</a></li>
+                        <li><a class="dropdown-item" href="{{ route('stock-opnames.index') }}">Stock Opname</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

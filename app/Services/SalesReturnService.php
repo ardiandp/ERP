@@ -50,7 +50,7 @@ class SalesReturnService
 
                 if ($saleItem->product_id && $warehouseId) {
                     $this->inventory->increase($warehouseId, (int) $saleItem->product_id, $quantity, [
-                        'movement_type' => 'RETURN',
+                        'movement_type' => 'RETURN_IN',
                         'reference_type' => SalesReturn::class,
                         'reference_id' => $return->id,
                         'notes' => "Retur {$return->return_number}",

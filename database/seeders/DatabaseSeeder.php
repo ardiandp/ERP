@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ProductCategorySeeder::class,
             ServiceCategorySeeder::class,
             PaymentMethodSeeder::class,
+            SupplierSeeder::class,
             WarehouseSeeder::class,
             ProductSeeder::class,
             ServiceSeeder::class,
