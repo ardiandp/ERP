@@ -47,4 +47,9 @@ class Branch extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
 }

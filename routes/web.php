@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BankReconciliationController;
@@ -13,12 +14,14 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DigitalAccountController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\GoodsReceiptController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MasterCrudController;
+use App\Http\Controllers\MediaFileController;
 use App\Http\Controllers\OvertimeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PayrollController;
@@ -171,4 +174,16 @@ Route::middleware('auth')->group(function () {
     Route::get('payslips', [PayslipController::class, 'index'])->name('payslips.index');
     Route::get('payslips/{payslip}', [PayslipController::class, 'show'])->name('payslips.show');
     Route::patch('payslips/{payslip}/publish', [PayslipController::class, 'publish'])->name('payslips.publish');
+
+    Route::resource('assets', AssetController::class);
+    Route::post('assets/{asset}/movements', [AssetController::class, 'move'])->name('assets.movements.store');
+    Route::patch('asset-movements/{asset_movement}/approve', [AssetController::class, 'approveMovement'])->name('asset-movements.approve');
+
+    Route::get('media', [MediaFileController::class, 'index'])->name('media.index');
+    Route::get('media/create', [MediaFileController::class, 'create'])->name('media.create');
+    Route::post('media', [MediaFileController::class, 'store'])->name('media.store');
+    Route::get('media/{media}', [MediaFileController::class, 'show'])->name('media.show');
+    Route::delete('media/{media}', [MediaFileController::class, 'destroy'])->name('media.destroy');
+
+    Route::resource('digital-accounts', DigitalAccountController::class)->except('show');
 });

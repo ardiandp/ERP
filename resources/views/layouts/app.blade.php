@@ -39,6 +39,8 @@
                         <li><a class="dropdown-item" href="{{ route('masterdata.index', 'banks') }}">Bank</a></li>
                         <li><a class="dropdown-item" href="{{ route('masterdata.index', 'financial-accounts') }}">Financial Account</a></li>
                         <li><a class="dropdown-item" href="{{ route('masterdata.index', 'payment-methods') }}">Payment Method</a></li>
+                        <li><a class="dropdown-item" href="{{ route('masterdata.index', 'asset-categories') }}">Asset Category</a></li>
+                        <li><a class="dropdown-item" href="{{ route('masterdata.index', 'digital-account-categories') }}">Digital Account Category</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -93,6 +95,17 @@
                         <li><a class="dropdown-item" href="{{ route('bill-templates.index') }}">Bill Templates</a></li>
                         <li><a class="dropdown-item" href="{{ route('masterdata.index', 'expense-categories') }}">Expense Categories</a></li>
                         <li><a class="dropdown-item" href="{{ route('expenses.index') }}">Expenses</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Asset & Document</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('assets.index') }}">Assets</a></li>
+                        <li><a class="dropdown-item" href="{{ route('media.index') }}">Media Files</a></li>
+                        <li><a class="dropdown-item" href="{{ route('digital-accounts.index') }}">Digital Accounts</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ route('masterdata.index', 'asset-categories') }}">Asset Categories</a></li>
+                        <li><a class="dropdown-item" href="{{ route('masterdata.index', 'digital-account-categories') }}">Digital Account Categories</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Users</a></li>

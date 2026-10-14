@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\AssetCategory;
 use App\Models\Bank;
 use App\Models\Brand;
 use App\Models\CommissionRule;
+use App\Models\DigitalAccountCategory;
 use App\Models\ExpenseCategory;
 use App\Models\FinancialAccount;
 use App\Models\PaymentMethod;
@@ -184,6 +186,24 @@ return [
                 'calculation_method' => ['label' => 'Calculation Method', 'type' => 'select', 'options' => ['FIXED', 'PERCENTAGE'], 'rules' => ['required']],
                 'is_taxable' => ['label' => 'Taxable', 'type' => 'select', 'options' => ['0', '1'], 'rules' => ['required']],
                 'is_bpjs' => ['label' => 'BPJS', 'type' => 'select', 'options' => ['0', '1'], 'rules' => ['required']],
+                'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['ACTIVE', 'INACTIVE'], 'rules' => ['required']],
+            ],
+        ],
+        'asset-categories' => [
+            'title' => 'Asset Categories',
+            'model' => AssetCategory::class,
+            'fields' => [
+                'code' => ['label' => 'Code', 'rules' => ['required'], 'unique' => true],
+                'name' => ['label' => 'Name', 'rules' => ['required']],
+                'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['ACTIVE', 'INACTIVE'], 'rules' => ['required']],
+            ],
+        ],
+        'digital-account-categories' => [
+            'title' => 'Digital Account Categories',
+            'model' => DigitalAccountCategory::class,
+            'fields' => [
+                'code' => ['label' => 'Code', 'rules' => ['required'], 'unique' => true],
+                'name' => ['label' => 'Name', 'rules' => ['required']],
                 'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['ACTIVE', 'INACTIVE'], 'rules' => ['required']],
             ],
         ],

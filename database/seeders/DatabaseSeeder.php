@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             ServiceCategorySeeder::class,
             ExpenseCategorySeeder::class,
             PaymentMethodSeeder::class,
+            AssetCategorySeeder::class,
+            DigitalAccountCategorySeeder::class,
             SalaryComponentSeeder::class,
             ShiftSeeder::class,
             SupplierSeeder::class,
