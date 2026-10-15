@@ -35,5 +35,9 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             SettingsSeeder::class,
         ]);
+
+        if (app()->environment('local')) {
+            $this->call(DummyDataSeeder::class);
+        }
     }
 }
