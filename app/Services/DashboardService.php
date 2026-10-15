@@ -64,7 +64,13 @@ class DashboardService
                 ->groupBy('branch_id')
                 ->with('branch')
                 ->orderByDesc('total_sales')
-                ->get(),
+                ->get()
+                ->map(fn ($row) => [
+                    'branch' => $row->branch?->name ?? '-',
+                    'total_sales' => (float) $row->total_sales,
+                    'total_transactions' => (int) $row->total_transactions,
+                ])
+                ->all(),
         ];
     }
 

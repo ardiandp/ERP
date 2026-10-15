@@ -91,9 +91,9 @@
             <tbody>
                 @forelse($metrics['branch_performance'] as $row)
                 <tr>
-                    <td>{{ $row->branch?->name ?? '-' }}</td>
-                    <td class="text-end">{{ number_format((float) $row->total_sales, 0, ',', '.') }}</td>
-                    <td class="text-end">{{ $row->total_transactions }}</td>
+                    <td>{{ $row['branch'] }}</td>
+                    <td class="text-end">{{ number_format($row['total_sales'], 0, ',', '.') }}</td>
+                    <td class="text-end">{{ $row['total_transactions'] }}</td>
                 </tr>
                 @empty
                 <tr><td colspan="3">Belum ada data.</td></tr>
