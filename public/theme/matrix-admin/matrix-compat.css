@@ -131,3 +131,9 @@
 
 .g-3 { margin-top: -1rem !important; }
 .g-3 > * { margin-top: 1rem !important; }
+
+/* ---------- Content background (white) ---------- */
+body,
+.page-wrapper {
+    background-color: #ffffff;
+}
