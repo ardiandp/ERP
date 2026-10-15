@@ -29,6 +29,7 @@ use App\Http\Controllers\PayrollPeriodController;
 use App\Http\Controllers\PayslipController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalaryStructureController;
 use App\Http\Controllers\SalesController;
@@ -186,4 +187,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('media/{media}', [MediaFileController::class, 'destroy'])->name('media.destroy');
 
     Route::resource('digital-accounts', DigitalAccountController::class)->except('show');
+
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/export', [ReportController::class, 'export'])->name('reports.export');
 });

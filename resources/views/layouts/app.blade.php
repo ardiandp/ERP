@@ -108,6 +108,7 @@
                         <li><a class="dropdown-item" href="{{ route('masterdata.index', 'digital-account-categories') }}">Digital Account Categories</a></li>
                     </ul>
                 </li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('reports.index') }}">Reports</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Users</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('roles.index') }}">Roles</a></li>
             </ul>
