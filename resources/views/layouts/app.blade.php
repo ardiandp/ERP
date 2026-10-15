@@ -9,6 +9,7 @@
     <link href="{{ asset('theme/matrix-admin/matrix-compat.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/matrix-admin/assets/libs/datatables/media/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/matrix-admin/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
+    <link href="{{ asset('theme/matrix-admin/datatables-theme.css') }}" rel="stylesheet">
 </head>
 <body>
 <div class="preloader">
