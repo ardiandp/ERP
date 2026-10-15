@@ -112,6 +112,17 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Users</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('roles.index') }}">Roles</a></li>
             </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('notifications.index') }}">
+                        Notifikasi
+                        @php($unread = auth()->user()->unreadNotifications->count())
+                        @if ($unread > 0)
+                            <span class="badge bg-danger">{{ $unread }}</span>
+                        @endif
+                    </a>
+                </li>
+            </ul>
             <form method="POST" action="{{ route('logout') }}" class="d-flex">
                 @csrf
                 <button class="btn btn-outline-light btn-sm">Logout</button>

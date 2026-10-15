@@ -22,6 +22,7 @@ use App\Http\Controllers\GoodsReceiptController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MasterCrudController;
 use App\Http\Controllers\MediaFileController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OvertimeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PayrollController;
@@ -190,4 +191,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('reports/export', [ReportController::class, 'export'])->name('reports.export');
+
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.readAll');
+    Route::post('notifications/{id}/read', [NotificationController::class, 'markRead'])->name('notifications.read');
 });
