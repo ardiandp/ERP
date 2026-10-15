@@ -11,12 +11,18 @@ use App\Models\InventoryStock;
 use App\Models\Payroll;
 use App\Models\PurchaseOrder;
 use App\Models\SalesTransaction;
+use Illuminate\Support\Facades\Cache;
 
 class DashboardService
 {
     public function __construct(protected FinanceService $finance) {}
 
     public function owner(?int $branchId = null): array
+    {
+        return Cache::remember('dashboard.owner.'.($branchId ?? 'all'), now()->addMinute(), fn () => $this->buildOwner($branchId));
+    }
+
+    protected function buildOwner(?int $branchId = null): array
     {
         $today = now()->toDateString();
         $monthStart = now()->startOfMonth()->toDateString();
@@ -63,6 +69,11 @@ class DashboardService
     }
 
     public function branch(int $branchId): array
+    {
+        return Cache::remember('dashboard.branch.'.$branchId, now()->addMinute(), fn () => $this->buildBranch($branchId));
+    }
+
+    protected function buildBranch(int $branchId): array
     {
         $today = now()->toDateString();
         $monthStart = now()->startOfMonth()->toDateString();
