@@ -1,0 +1,133 @@
+/*
+ * Matrix Admin (Bootstrap 4.1) <-> Bootstrap 5 compatibility shim.
+ * The ERP blade views were written using a few Bootstrap 5 utility classes.
+ * This file maps those class names to their Bootstrap 4 equivalents so the
+ * existing views keep rendering correctly without being rewritten.
+ * Load this file AFTER dist/css/style.min.css.
+ */
+
+/* ---------- Forms ---------- */
+.form-label {
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+
+.form-select {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem 1.75rem .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right .75rem center;
+    background-size: 16px 12px;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.form-select:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+}
+
+.form-select:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+.form-select-sm {
+    height: calc(1.5em + .5rem + 2px);
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .5rem;
+    font-size: .875rem;
+}
+
+/* ---------- Text alignment ---------- */
+.text-end {
+    text-align: right !important;
+}
+
+.text-start {
+    text-align: left !important;
+}
+
+/* ---------- Font weight / size ---------- */
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+.fw-semibold {
+    font-weight: 600 !important;
+}
+
+.fw-bolder {
+    font-weight: bolder !important;
+}
+
+.fw-normal {
+    font-weight: 400 !important;
+}
+
+.fs-1 { font-size: 2.5rem !important; }
+.fs-2 { font-size: 2rem !important; }
+.fs-3 { font-size: 1.75rem !important; }
+.fs-4 { font-size: 1.5rem !important; }
+.fs-5 { font-size: 1.25rem !important; }
+.fs-6 { font-size: 1rem !important; }
+
+/* ---------- Badges (bg-* utility + badge) ---------- */
+.badge.bg-primary,
+.badge.bg-secondary,
+.badge.bg-success,
+.badge.bg-danger,
+.badge.bg-info,
+.badge.bg-dark {
+    color: #fff;
+}
+
+.badge.bg-warning,
+.badge.bg-light {
+    color: #212529;
+}
+
+/* ---------- Flex gap (Bootstrap 5) ---------- */
+.gap-0 { gap: 0 !important; }
+.gap-1 { gap: .25rem !important; }
+.gap-2 { gap: .5rem !important; }
+.gap-3 { gap: 1rem !important; }
+.gap-4 { gap: 1.5rem !important; }
+.gap-5 { gap: 3rem !important; }
+
+/* ---------- Row gutters g-* (Bootstrap 5) ---------- */
+.g-0, .gx-0 { margin-right: 0 !important; margin-left: 0 !important; }
+.g-0 > *, .gx-0 > * { padding-right: 0 !important; padding-left: 0 !important; }
+
+.g-1, .gx-1 { margin-right: -.25rem !important; margin-left: -.25rem !important; }
+.g-1 > *, .gx-1 > * { padding-right: .25rem !important; padding-left: .25rem !important; }
+
+.g-2, .gx-2 { margin-right: -.5rem !important; margin-left: -.5rem !important; }
+.g-2 > *, .gx-2 > * { padding-right: .5rem !important; padding-left: .5rem !important; }
+
+.g-3, .gx-3 { margin-right: -.5rem !important; margin-left: -.5rem !important; }
+.g-3 > *, .gx-3 > * { padding-right: .5rem !important; padding-left: .5rem !important; }
+
+.g-4, .gx-4 { margin-right: -.75rem !important; margin-left: -.75rem !important; }
+.g-4 > *, .gx-4 > * { padding-right: .75rem !important; padding-left: .75rem !important; }
+
+.g-5, .gx-5 { margin-right: -1.5rem !important; margin-left: -1.5rem !important; }
+.g-5 > *, .gx-5 > * { padding-right: 1.5rem !important; padding-left: 1.5rem !important; }
+
+.g-3 { margin-top: -1rem !important; }
+.g-3 > * { margin-top: 1rem !important; }
