@@ -70,6 +70,27 @@
     </div>
 </div>
 
+<div class="row g-3 mt-1">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header">Tren Penjualan (14 Hari Terakhir)</div>
+            <div class="card-body"><div id="chart-sales-trend" style="height:280px;"></div></div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card h-100">
+            <div class="card-header">Penjualan per Cabang (Bulan Ini)</div>
+            <div class="card-body"><div id="chart-branch-pie" style="height:280px;"></div></div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card h-100">
+            <div class="card-header">Metode Pembayaran (Bulan Ini)</div>
+            <div class="card-body"><div id="chart-payment-pie" style="height:280px;"></div></div>
+        </div>
+    </div>
+</div>
+
 @if($branchMetrics)
 <h5 class="mt-4">Branch Dashboard</h5>
 <div class="row g-3">
@@ -102,4 +123,55 @@
         </table>
     </div>
 </div>
+
+@push('scripts')
+<script src="{{ asset('theme/matrix-admin/assets/libs/flot/jquery.flot.js') }}"></script>
+<script src="{{ asset('theme/matrix-admin/assets/libs/flot/jquery.flot.pie.js') }}"></script>
+<script src="{{ asset('theme/matrix-admin/assets/libs/flot/jquery.flot.resize.js') }}"></script>
+<script src="{{ asset('theme/matrix-admin/assets/libs/jquery.flot.tooltip/js/jquery.flot.tooltip.min.js') }}"></script>
+<script>
+$(function () {
+    var trend = @json($metrics['sales_trend']);
+    var branches = @json($metrics['branch_performance']);
+    var payments = @json($metrics['payment_mix']);
+
+    var fmt = function (v) { return Number(v).toLocaleString('id-ID'); };
+
+    // Bar chart: sales trend
+    var ticks = trend.map(function (p, i) { return [i, p.label]; });
+    var bars = trend.map(function (p, i) { return [i, p.value]; });
+    if (bars.length) {
+        $.plot('#chart-sales-trend', [{ data: bars, color: '#2962ff', bars: { show: true, barWidth: 0.6, align: 'center', fillColor: '#2962ff' } }], {
+            xaxis: { ticks: ticks, tickDecimals: 0 },
+            yaxis: { min: 0, tickFormatter: fmt },
+            grid: { borderWidth: 0, hoverable: true, margin: 8 },
+            tooltip: true,
+            tooltipOpts: { content: '%x : Rp %y', defaultTheme: false }
+        });
+    }
+
+    var pieOpts = {
+        series: { pie: { show: true, radius: 0.9, label: { show: false } } },
+        legend: { show: true, position: 'ne', backgroundOpacity: 0.85 },
+        grid: { hoverable: true, borderWidth: 0 },
+        tooltip: true,
+        tooltipOpts: { content: '%s: Rp %y (%p.1%)', defaultTheme: false }
+    };
+
+    var branchData = branches.map(function (b) { return { label: b.branch, data: b.total_sales }; });
+    if (branchData.length) {
+        $.plot('#chart-branch-pie', branchData, pieOpts);
+    } else {
+        $('#chart-branch-pie').html('<p class="text-muted text-center m-t-40">Belum ada data.</p>');
+    }
+
+    var payData = payments.map(function (p) { return { label: p.method, data: p.total }; });
+    if (payData.length) {
+        $.plot('#chart-payment-pie', payData, pieOpts);
+    } else {
+        $('#chart-payment-pie').html('<p class="text-muted text-center m-t-40">Belum ada data.</p>');
+    }
+});
+</script>
+@endpush
 @endsection

@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Employee;
 use App\Models\Expense;
 use App\Models\InventoryStock;
+use App\Models\Payment;
 use App\Models\Payroll;
 use App\Models\PurchaseOrder;
 use App\Models\SalesTransaction;
@@ -71,7 +72,58 @@ class DashboardService
                     'total_transactions' => (int) $row->total_transactions,
                 ])
                 ->all(),
+            'sales_trend' => $this->salesTrend($branchId, 14),
+            'payment_mix' => $this->paymentMix($branchId),
         ];
+    }
+
+    protected function salesTrend(?int $branchId, int $days): array
+    {
+        $start = now()->subDays($days - 1)->toDateString();
+        $end = now()->toDateString();
+
+        $rows = SalesTransaction::where('status', 'COMPLETED')
+            ->when($branchId, fn ($q) => $q->where('branch_id', $branchId))
+            ->whereDate('transaction_date', '>=', $start)
+            ->whereDate('transaction_date', '<=', $end)
+            ->selectRaw('DATE(transaction_date) as d, SUM(grand_total) as total')
+            ->groupBy('d')
+            ->pluck('total', 'd');
+
+        $series = [];
+        for ($i = $days - 1; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $series[] = [
+                'label' => $date->format('d M'),
+                'value' => (float) ($rows[$date->toDateString()] ?? 0),
+            ];
+        }
+
+        return $series;
+    }
+
+    protected function paymentMix(?int $branchId): array
+    {
+        $monthStart = now()->startOfMonth()->toDateString();
+        $monthEnd = now()->endOfMonth()->toDateString();
+
+        return Payment::query()
+            ->join('payment_methods', 'payment_methods.id', '=', 'payments.payment_method_id')
+            ->where('payments.transaction_type', 'SALE')
+            ->when($branchId, fn ($q) => $q->whereIn('payments.transaction_id', function ($sub) use ($branchId) {
+                $sub->select('id')->from('sales_transactions')->where('branch_id', $branchId);
+            }))
+            ->whereDate('payments.payment_date', '>=', $monthStart)
+            ->whereDate('payments.payment_date', '<=', $monthEnd)
+            ->selectRaw('payment_methods.name as method, SUM(payments.amount) as total')
+            ->groupBy('payment_methods.name')
+            ->orderByDesc('total')
+            ->get()
+            ->map(fn ($row) => [
+                'method' => $row->method,
+                'total' => (float) $row->total,
+            ])
+            ->all();
     }
 
     public function branch(int $branchId): array
