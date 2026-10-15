@@ -17,7 +17,7 @@ class AssetController extends Controller
     public function index()
     {
         return view('assets.index', [
-            'assets' => Asset::with('category', 'branch')->latest('id')->paginate(15),
+            'assets' => Asset::with('category', 'branch')->latest('id')->get(),
         ]);
     }
 

@@ -16,7 +16,7 @@ class StockOpnameController extends Controller
     public function index()
     {
         return view('stock-opnames.index', [
-            'opnames' => StockOpname::with('warehouse')->latest('id')->paginate(15),
+            'opnames' => StockOpname::with('warehouse')->latest('id')->get(),
         ]);
     }
 

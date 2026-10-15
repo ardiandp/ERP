@@ -27,5 +27,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $customers->links() }}
 @endsection

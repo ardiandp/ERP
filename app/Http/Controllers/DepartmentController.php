@@ -11,7 +11,7 @@ class DepartmentController extends Controller
 {
     public function index()
     {
-        return view('departments.index', ['departments' => Department::with('company')->latest()->paginate(15)]);
+        return view('departments.index', ['departments' => Department::with('company')->latest()->get()]);
     }
 
     public function create()

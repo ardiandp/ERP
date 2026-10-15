@@ -16,7 +16,7 @@ class BankReconciliationController extends Controller
     public function index()
     {
         return view('bank-reconciliations.index', [
-            'reconciliations' => BankReconciliation::with('bankTransaction.financialAccount', 'payment')->latest('id')->paginate(20),
+            'reconciliations' => BankReconciliation::with('bankTransaction.financialAccount', 'payment')->latest('id')->get(),
         ]);
     }
 

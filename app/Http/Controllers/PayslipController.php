@@ -12,8 +12,7 @@ class PayslipController extends Controller
         $payslips = Payslip::with('employee', 'payroll.period')
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->input('status')))
             ->latest('id')
-            ->paginate(20)
-            ->withQueryString();
+            ->get();
 
         return view('payslips.index', ['payslips' => $payslips]);
     }

@@ -15,8 +15,7 @@ class BankTransactionController extends Controller
             ->when($request->filled('status'), fn ($query) => $query->where('reconciliation_status', $request->input('status')))
             ->latest('transaction_date')
             ->latest('id')
-            ->paginate(20)
-            ->withQueryString();
+            ->get();
 
         return view('bank-transactions.index', [
             'transactions' => $transactions,

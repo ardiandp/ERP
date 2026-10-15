@@ -8,7 +8,7 @@ class NotificationController extends Controller
 {
     public function index(Request $request)
     {
-        $notifications = $request->user()->notifications()->latest()->paginate(20);
+        $notifications = $request->user()->notifications()->latest()->get();
 
         return view('notifications.index', compact('notifications'));
     }

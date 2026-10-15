@@ -17,7 +17,7 @@ class StockTransferController extends Controller
     public function index()
     {
         return view('stock-transfers.index', [
-            'transfers' => StockTransfer::with('fromWarehouse', 'toWarehouse')->latest('id')->paginate(15),
+            'transfers' => StockTransfer::with('fromWarehouse', 'toWarehouse')->latest('id')->get(),
         ]);
     }
 

@@ -29,7 +29,6 @@
         @endforelse
     </tbody>
 </table>
-{{ $shifts->links() }}
 
 <div class="card mt-4">
     <div class="card-header">Penugasan Shift Karyawan</div>

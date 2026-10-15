@@ -25,5 +25,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $transactions->links() }}
 @endsection

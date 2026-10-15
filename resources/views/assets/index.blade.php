@@ -29,5 +29,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $assets->links() }}
 @endsection

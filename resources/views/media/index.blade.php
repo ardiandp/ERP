@@ -28,5 +28,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $files->links() }}
 @endsection

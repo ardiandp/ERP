@@ -15,7 +15,7 @@ class SalesReturnController extends Controller
     public function index()
     {
         return view('sales.returns.index', [
-            'returns' => SalesReturn::with('transaction')->latest('id')->paginate(15),
+            'returns' => SalesReturn::with('transaction')->latest('id')->get(),
         ]);
     }
 

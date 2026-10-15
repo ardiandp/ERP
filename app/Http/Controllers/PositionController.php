@@ -11,7 +11,7 @@ class PositionController extends Controller
 {
     public function index()
     {
-        return view('positions.index', ['positions' => Position::with('department')->latest()->paginate(15)]);
+        return view('positions.index', ['positions' => Position::with('department')->latest()->get()]);
     }
 
     public function create()

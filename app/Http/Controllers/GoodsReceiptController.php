@@ -19,7 +19,7 @@ class GoodsReceiptController extends Controller
     public function index()
     {
         return view('goods-receipts.index', [
-            'receipts' => GoodsReceipt::with('supplier', 'warehouse')->latest('id')->paginate(15),
+            'receipts' => GoodsReceipt::with('supplier', 'warehouse')->latest('id')->get(),
         ]);
     }
 

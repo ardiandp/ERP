@@ -22,5 +22,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $periods->links() }}
 @endsection

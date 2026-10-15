@@ -107,7 +107,7 @@
 <div class="card mt-4">
     <div class="card-header">Branch Performance (Bulan Ini)</div>
     <div class="card-body p-0">
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0 no-datatable">
             <thead><tr><th>Cabang</th><th class="text-end">Omzet</th><th class="text-end">Transaksi</th></tr></thead>
             <tbody>
                 @forelse($metrics['branch_performance'] as $row)

@@ -27,5 +27,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $warehouses->links() }}
 @endsection

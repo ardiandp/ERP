@@ -26,5 +26,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $positions->links() }}
 @endsection

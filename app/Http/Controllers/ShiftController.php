@@ -13,7 +13,7 @@ class ShiftController extends Controller
     public function index()
     {
         return view('shifts.index', [
-            'shifts' => Shift::with('branch')->latest('id')->paginate(15),
+            'shifts' => Shift::with('branch')->latest('id')->get(),
             'assignments' => EmployeeShift::with('employee', 'shift')->latest('id')->take(20)->get(),
             'employees' => Employee::orderBy('full_name')->get(),
         ]);

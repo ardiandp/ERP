@@ -19,8 +19,7 @@ class BookingController extends Controller
         $bookings = Booking::with('customer', 'branch')
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->input('status')))
             ->latest('id')
-            ->paginate(15)
-            ->withQueryString();
+            ->get();
 
         return view('bookings.index', ['bookings' => $bookings]);
     }

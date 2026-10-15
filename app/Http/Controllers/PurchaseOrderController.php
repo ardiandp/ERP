@@ -19,8 +19,7 @@ class PurchaseOrderController extends Controller
         $orders = PurchaseOrder::with('supplier', 'branch')
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->input('status')))
             ->latest('id')
-            ->paginate(15)
-            ->withQueryString();
+            ->get();
 
         return view('purchase-orders.index', ['orders' => $orders]);
     }

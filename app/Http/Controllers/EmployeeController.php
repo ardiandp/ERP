@@ -13,7 +13,7 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        return view('employees.index', ['employees' => Employee::with(['branch', 'department', 'position'])->latest()->paginate(15)]);
+        return view('employees.index', ['employees' => Employee::with(['branch', 'department', 'position'])->latest()->get()]);
     }
 
     public function create()

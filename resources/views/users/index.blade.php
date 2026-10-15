@@ -17,5 +17,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $users->links() }}
 @endsection

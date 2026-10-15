@@ -20,5 +20,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $opnames->links() }}
 @endsection

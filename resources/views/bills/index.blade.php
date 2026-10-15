@@ -33,5 +33,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $bills->links() }}
 @endsection

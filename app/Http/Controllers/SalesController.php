@@ -29,8 +29,7 @@ class SalesController extends Controller
         $transactions = SalesTransaction::with('customer')
             ->when($request->filled('search'), fn ($query) => $query->where('invoice_number', 'like', '%'.$request->input('search').'%'))
             ->latest('id')
-            ->paginate(15)
-            ->withQueryString();
+            ->get();
 
         return view('sales.index', ['transactions' => $transactions]);
     }

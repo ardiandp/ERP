@@ -21,5 +21,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $transfers->links() }}
 @endsection

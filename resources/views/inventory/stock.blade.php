@@ -31,5 +31,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $stocks->links() }}
 @endsection

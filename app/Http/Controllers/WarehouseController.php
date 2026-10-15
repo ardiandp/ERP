@@ -11,7 +11,7 @@ class WarehouseController extends Controller
 {
     public function index()
     {
-        return view('warehouses.index', ['warehouses' => Warehouse::with('branch')->latest()->paginate(15)]);
+        return view('warehouses.index', ['warehouses' => Warehouse::with('branch')->latest()->get()]);
     }
 
     public function create()

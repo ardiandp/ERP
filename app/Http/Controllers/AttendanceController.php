@@ -19,8 +19,7 @@ class AttendanceController extends Controller
             ->when($request->filled('employee_id'), fn ($query) => $query->where('employee_id', $request->input('employee_id')))
             ->latest('attendance_date')
             ->latest('id')
-            ->paginate(20)
-            ->withQueryString();
+            ->get();
 
         return view('attendances.index', [
             'attendances' => $attendances,

@@ -26,5 +26,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $departments->links() }}
 @endsection

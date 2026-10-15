@@ -14,8 +14,7 @@ class CommissionController extends Controller
             ->when($request->filled('employee_id'), fn ($query) => $query->where('employee_id', $request->input('employee_id')))
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->input('status')))
             ->latest('id')
-            ->paginate(20)
-            ->withQueryString();
+            ->get();
 
         return view('commissions.index', [
             'commissions' => $commissions,

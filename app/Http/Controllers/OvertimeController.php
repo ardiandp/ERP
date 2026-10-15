@@ -16,7 +16,7 @@ class OvertimeController extends Controller
     public function index()
     {
         return view('overtimes.index', [
-            'overtimes' => OvertimeRecord::with('employee')->latest('overtime_date')->latest('id')->paginate(20),
+            'overtimes' => OvertimeRecord::with('employee')->latest('overtime_date')->latest('id')->get(),
         ]);
     }
 

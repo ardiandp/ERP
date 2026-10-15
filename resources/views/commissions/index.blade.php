@@ -36,5 +36,4 @@
     </tbody>
     <tfoot><tr><th colspan="2" class="text-end">Total</th><td class="text-end fw-bold">{{ number_format((float) $total, 2) }}</td><td></td></tr></tfoot>
 </table>
-{{ $commissions->links() }}
 @endsection

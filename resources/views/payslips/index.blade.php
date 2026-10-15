@@ -31,5 +31,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $payslips->links() }}
 @endsection

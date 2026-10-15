@@ -20,7 +20,7 @@ class MediaFileController extends Controller
     public function index()
     {
         return view('media.index', [
-            'files' => MediaFile::with('uploader')->latest('id')->paginate(15),
+            'files' => MediaFile::with('uploader')->latest('id')->get(),
         ]);
     }
 

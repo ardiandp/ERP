@@ -12,7 +12,7 @@ class DigitalAccountController extends Controller
     public function index()
     {
         return view('digital-accounts.index', [
-            'accounts' => DigitalAccount::with('category')->latest('id')->paginate(15),
+            'accounts' => DigitalAccount::with('category')->latest('id')->get(),
         ]);
     }
 

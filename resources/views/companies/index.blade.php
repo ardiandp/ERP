@@ -25,5 +25,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $companies->links() }}
 @endsection

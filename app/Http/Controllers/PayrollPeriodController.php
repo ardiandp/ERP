@@ -14,7 +14,7 @@ class PayrollPeriodController extends Controller
     public function index()
     {
         return view('payroll-periods.index', [
-            'periods' => PayrollPeriod::withCount('payrolls')->latest('period_start')->paginate(15),
+            'periods' => PayrollPeriod::withCount('payrolls')->latest('period_start')->get(),
         ]);
     }
 

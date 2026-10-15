@@ -30,5 +30,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $overtimes->links() }}
 @endsection

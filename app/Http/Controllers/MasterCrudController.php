@@ -24,7 +24,7 @@ class MasterCrudController extends Controller
     {
         $cfg = $this->entity($entity);
         $model = $cfg['model'];
-        $items = $model::query()->latest()->paginate(15);
+        $items = $model::query()->latest()->get();
 
         return view('masterdata.index', compact('cfg', 'items', 'entity'));
     }

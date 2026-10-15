@@ -19,8 +19,7 @@ class InventoryController extends Controller
             ->when($request->filled('warehouse_id'), fn ($query) => $query->where('warehouse_id', $request->input('warehouse_id')))
             ->when($request->filled('search'), fn ($query) => $query->whereHas('product', fn ($q) => $q->where('name', 'like', '%'.$request->input('search').'%')))
             ->orderBy('warehouse_id')
-            ->paginate(20)
-            ->withQueryString();
+            ->get();
 
         return view('inventory.stock', [
             'stocks' => $stocks,
@@ -34,8 +33,7 @@ class InventoryController extends Controller
             ->when($request->filled('warehouse_id'), fn ($query) => $query->where('warehouse_id', $request->input('warehouse_id')))
             ->when($request->filled('product_id'), fn ($query) => $query->where('product_id', $request->input('product_id')))
             ->latest('id')
-            ->paginate(20)
-            ->withQueryString();
+            ->get();
 
         return view('inventory.movements', [
             'movements' => $movements,

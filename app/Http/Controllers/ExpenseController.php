@@ -21,8 +21,7 @@ class ExpenseController extends Controller
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->input('status')))
             ->latest('expense_date')
             ->latest('id')
-            ->paginate(20)
-            ->withQueryString();
+            ->get();
 
         return view('expenses.index', ['expenses' => $expenses]);
     }

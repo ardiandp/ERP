@@ -21,8 +21,7 @@ class PayrollController extends Controller
             ->when($request->filled('payroll_period_id'), fn ($query) => $query->where('payroll_period_id', $request->input('payroll_period_id')))
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->input('status')))
             ->latest('id')
-            ->paginate(20)
-            ->withQueryString();
+            ->get();
 
         return view('payrolls.index', [
             'payrolls' => $payrolls,

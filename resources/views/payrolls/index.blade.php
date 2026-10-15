@@ -38,5 +38,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $payrolls->links() }}
 @endsection

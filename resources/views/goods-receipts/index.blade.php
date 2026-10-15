@@ -22,5 +22,4 @@
         @endforelse
     </tbody>
 </table>
-{{ $receipts->links() }}
 @endsection

@@ -18,8 +18,7 @@ class BillController extends Controller
         $bills = Bill::with('template', 'branch')
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->input('status')))
             ->latest('due_date')
-            ->paginate(20)
-            ->withQueryString();
+            ->get();
 
         return view('bills.index', ['bills' => $bills]);
     }

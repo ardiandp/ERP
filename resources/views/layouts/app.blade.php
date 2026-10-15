@@ -7,6 +7,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('theme/matrix-admin/assets/images/favicon.png') }}">
     <link href="{{ asset('theme/matrix-admin/dist/css/style.min.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/matrix-admin/matrix-compat.css') }}" rel="stylesheet">
+    <link href="{{ asset('theme/matrix-admin/assets/libs/datatables/media/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('theme/matrix-admin/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
 </head>
 <body>
 <div class="preloader">
@@ -225,6 +227,9 @@
     <script src="{{ asset('theme/matrix-admin/dist/js/waves.js') }}"></script>
     <script src="{{ asset('theme/matrix-admin/dist/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('theme/matrix-admin/dist/js/custom.min.js') }}"></script>
+    <script src="{{ asset('theme/matrix-admin/assets/libs/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('theme/matrix-admin/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('theme/matrix-admin/datatables-init.js') }}"></script>
     <script>
         $(function () { $('.preloader').fadeOut(); });
     </script>

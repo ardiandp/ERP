@@ -13,7 +13,7 @@ class BillTemplateController extends Controller
     public function index()
     {
         return view('bill-templates.index', [
-            'templates' => BillTemplate::with('branch', 'supplier')->latest('id')->paginate(15),
+            'templates' => BillTemplate::with('branch', 'supplier')->latest('id')->get(),
         ]);
     }
 

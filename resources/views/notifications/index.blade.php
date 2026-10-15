@@ -42,5 +42,4 @@
         </div>
     </div>
 
-    <div class="mt-3">{{ $notifications->links() }}</div>
 @endsection
