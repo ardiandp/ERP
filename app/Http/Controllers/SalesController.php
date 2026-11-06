@@ -78,6 +78,15 @@ class SalesController extends Controller
         ]);
     }
 
+    public function print(SalesTransaction $sale)
+    {
+        $sale->load(['customer', 'branch', 'items.employee', 'payments.paymentMethod']);
+
+        return view('sales.print', [
+            'transaction' => $sale,
+        ]);
+    }
+
     protected function withPayment(array $data): array
     {
         if (! empty($data['payment_method_id']) && ! empty($data['paid_amount'])) {

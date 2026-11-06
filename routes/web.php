@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BankReconciliationController;
 use App\Http\Controllers\BankTransactionController;
@@ -35,6 +37,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalaryStructureController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SalesReturnController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\StockOpnameController;
 use App\Http\Controllers\StockTransferController;
@@ -68,7 +71,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('{entity}/{id}', [MasterCrudController::class, 'destroy'])->name('destroy');
     });
 
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::resource('users', UserController::class);
+    Route::patch('users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
     Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
 
     Route::resource('warehouses', WarehouseController::class)->except('show');
@@ -106,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::post('sales', [SalesController::class, 'store'])->name('sales.store');
     Route::post('sales/{sale}/payments', [PaymentController::class, 'store'])->name('sales.payments.store');
     Route::get('sales/{sale}', [SalesController::class, 'show'])->name('sales.show');
+    Route::get('sales/{sale}/print', [SalesController::class, 'print'])->name('sales.print');
 
     Route::get('returns', [SalesReturnController::class, 'index'])->name('sales.returns.index');
     Route::get('sales/{sale}/returns/create', [SalesReturnController::class, 'create'])->name('sales.returns.create');
@@ -175,6 +180,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('payslips', [PayslipController::class, 'index'])->name('payslips.index');
     Route::get('payslips/{payslip}', [PayslipController::class, 'show'])->name('payslips.show');
+    Route::get('payslips/{payslip}/print', [PayslipController::class, 'print'])->name('payslips.print');
     Route::patch('payslips/{payslip}/publish', [PayslipController::class, 'publish'])->name('payslips.publish');
 
     Route::resource('assets', AssetController::class);
@@ -191,6 +197,16 @@ Route::middleware('auth')->group(function () {
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('reports/export', [ReportController::class, 'export'])->name('reports.export');
+
+    Route::get('approvals', [ApprovalController::class, 'index'])->name('approvals.index');
+    Route::patch('approvals/{type}/{id}/approve', [ApprovalController::class, 'approve'])->name('approvals.approve');
+    Route::patch('approvals/{type}/{id}/reject', [ApprovalController::class, 'reject'])->name('approvals.reject');
+
+    Route::get('audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
+    Route::get('audit-logs/{audit_log}', [AuditLogController::class, 'show'])->name('audit-logs.show');
+
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.readAll');

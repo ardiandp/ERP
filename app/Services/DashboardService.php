@@ -2,16 +2,20 @@
 
 namespace App\Services;
 
+use App\Models\AssetMovement;
 use App\Models\Attendance;
 use App\Models\Bill;
 use App\Models\Booking;
 use App\Models\Employee;
 use App\Models\Expense;
 use App\Models\InventoryStock;
+use App\Models\OvertimeRecord;
 use App\Models\Payment;
 use App\Models\Payroll;
 use App\Models\PurchaseOrder;
 use App\Models\SalesTransaction;
+use App\Models\StockOpname;
+use App\Models\StockTransfer;
 use Illuminate\Support\Facades\Cache;
 
 class DashboardService
@@ -57,7 +61,16 @@ class DashboardService
                 ->count()
                 + PurchaseOrder::where('status', 'DRAFT')
                     ->when($branchId, fn ($q) => $q->where('branch_id', $branchId))
-                    ->count(),
+                    ->count()
+                + StockTransfer::where('status', 'DRAFT')->count()
+                + StockOpname::where('status', 'DRAFT')->count()
+                + Payroll::where('status', 'DRAFT')
+                    ->when($branchId, fn ($q) => $q->whereHas('employee', fn ($e) => $e->where('branch_id', $branchId)))
+                    ->count()
+                + OvertimeRecord::where('status', 'PENDING')
+                    ->when($branchId, fn ($q) => $q->whereHas('employee', fn ($e) => $e->where('branch_id', $branchId)))
+                    ->count()
+                + AssetMovement::where('status', 'PENDING')->count(),
             'branch_performance' => SalesTransaction::where('status', 'COMPLETED')
                 ->whereBetween('transaction_date', [$monthStart, $monthEnd])
                 ->when($branchId, fn ($q) => $q->where('branch_id', $branchId))

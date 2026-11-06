@@ -2,9 +2,12 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>Invoice {{ $transaction->invoice_number }}</h4>
-    <div>
-        <a href="{{ route('sales.returns.create', $transaction) }}" class="btn btn-outline-secondary btn-sm">Retur</a>
-        <a href="{{ route('sales.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
+    <div class="btn-group btn-group-sm">
+        <a href="{{ route('sales.print', $transaction) }}" target="_blank" class="btn btn-outline-primary">
+            <i class="mdi mdi-printer"></i> Cetak Struk
+        </a>
+        <a href="{{ route('sales.returns.create', $transaction) }}" class="btn btn-outline-secondary">Retur</a>
+        <a href="{{ route('sales.index') }}" class="btn btn-outline-secondary">Kembali</a>
     </div>
 </div>
 

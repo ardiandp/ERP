@@ -24,6 +24,13 @@ class PayslipController extends Controller
         return view('payslips.show', ['payslip' => $payslip]);
     }
 
+    public function print(Payslip $payslip)
+    {
+        $payslip->load('employee.branch', 'employee.department', 'employee.position', 'payroll.period', 'items');
+
+        return view('payslips.print', ['payslip' => $payslip]);
+    }
+
     public function publish(Payslip $payslip)
     {
         if ($payslip->status === 'PUBLISHED') {

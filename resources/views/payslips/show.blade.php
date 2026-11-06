@@ -2,7 +2,12 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>Slip Gaji {{ $payslip->payslip_number }}</h4>
-    <a href="{{ route('payslips.index') }}" class="btn btn-sm btn-outline-secondary">Kembali</a>
+    <div class="btn-group btn-group-sm">
+        <a href="{{ route('payslips.print', $payslip) }}" target="_blank" class="btn btn-outline-primary">
+            <i class="mdi mdi-printer"></i> Cetak Slip
+        </a>
+        <a href="{{ route('payslips.index') }}" class="btn btn-outline-secondary">Kembali</a>
+    </div>
 </div>
 @if($errors->any())<div class="alert alert-danger">{{ $errors->first() }}</div>@endif
 <div class="card mb-3">

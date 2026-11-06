@@ -185,19 +185,27 @@
                     </li>
 
                     <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark {{ request()->routeIs('approvals.*') ? 'active' : '' }}" href="{{ route('approvals.index') }}" aria-expanded="false">
+                            <i class="mdi mdi-checkbox-marked-circle-outline"></i><span class="hide-menu">Pusat Persetujuan</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
                         <a class="sidebar-link waves-effect waves-dark {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="{{ route('reports.index') }}" aria-expanded="false">
                             <i class="mdi mdi-chart-bar"></i><span class="hide-menu">Reports</span>
                         </a>
                     </li>
+
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}" aria-expanded="false">
-                            <i class="mdi mdi-account-key"></i><span class="hide-menu">Users</span>
+                        <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                            <i class="mdi mdi-cog-outline"></i><span class="hide-menu">System</span>
                         </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}" aria-expanded="false">
-                            <i class="mdi mdi-shield-account"></i><span class="hide-menu">Roles</span>
-                        </a>
+                        <ul aria-expanded="false" class="collapse first-level">
+                            <li class="sidebar-item"><a href="{{ route('users.index') }}" class="sidebar-link"><i class="mdi mdi-account-key"></i><span class="hide-menu">Users</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('roles.index') }}" class="sidebar-link"><i class="mdi mdi-shield-account"></i><span class="hide-menu">Roles &amp; Permissions</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('audit-logs.index') }}" class="sidebar-link"><i class="mdi mdi-history"></i><span class="hide-menu">Audit Log</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('settings.index') }}" class="sidebar-link"><i class="mdi mdi-tune-vertical"></i><span class="hide-menu">Settings</span></a></li>
+                        </ul>
                     </li>
                 </ul>
             </nav>

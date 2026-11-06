@@ -63,10 +63,12 @@
         </div></div>
     </div>
     <div class="col-md-2">
-        <div class="card"><div class="card-body">
-            <div class="text-muted small">Approval Pending</div>
-            <div class="fs-5 fw-bold">{{ $metrics['approval_pending'] }}</div>
-        </div></div>
+        <a href="{{ route('approvals.index') }}" class="text-decoration-none">
+            <div class="card border-info h-100"><div class="card-body">
+                <div class="text-muted small">Approval Pending</div>
+                <div class="fs-5 fw-bold text-info">{{ $metrics['approval_pending'] }}</div>
+            </div></div>
+        </a>
     </div>
 </div>
 
