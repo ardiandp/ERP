@@ -368,12 +368,12 @@
                     <tbody>
                         @forelse($assetMovements as $am)
                         <tr>
-                            <td class="fw-bold">{{ $am->movement_number }}</td>
+                            <td class="fw-bold">#{{ $am->id }}</td>
                             <td>{{ $am->asset?->name }}</td>
                             <td>{{ $am->fromBranch?->name ?? 'Gudang Pusat' }}</td>
                             <td>{{ $am->toBranch?->name }}</td>
                             <td>{{ optional($am->movement_date)->format('d/m/Y') }}</td>
-                            <td>{{ $am->creator?->name }}</td>
+                            <td>{{ $am->movedBy?->name }}</td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm">
                                     <form method="POST" action="{{ route('approvals.approve', ['type' => 'asset_movement', 'id' => $am->id]) }}" class="d-inline" onsubmit="return confirm('Setujui mutasi aset ini?')">
@@ -397,3 +397,4 @@
     </div>
 </div>
 @endsection
+

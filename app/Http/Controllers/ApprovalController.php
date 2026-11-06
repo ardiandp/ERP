@@ -71,8 +71,8 @@ class ApprovalController extends Controller
             ->latest('id')
             ->get();
 
-        $assetMovements = AssetMovement::with(['asset', 'fromBranch', 'toBranch', 'creator'])
-            ->where('status', 'PENDING')
+        $assetMovements = AssetMovement::with(['asset', 'fromBranch', 'toBranch', 'movedBy'])
+            ->whereNull('approved_by')
             ->latest('id')
             ->get();
 
@@ -134,7 +134,10 @@ class ApprovalController extends Controller
                     return back()->with('error', 'Tipe persetujuan tidak valid.');
             }
 
-            AuditLog::record('approve', $item, [], ['status' => $item->status]);
+            AuditLog::record('approve', $item, [], [
+                'status' => $item->status ?? ($item->approved_by ? 'APPROVED' : null),
+                'approved_by' => $item->approved_by ?? auth()->id(),
+            ]);
 
             return back()->with('success', 'Pengajuan berhasil disetujui.');
         } catch (Exception $e) {
@@ -178,14 +181,16 @@ class ApprovalController extends Controller
 
                 case 'asset_movement':
                     $item = AssetMovement::findOrFail($id);
-                    $item->update(['status' => 'REJECTED']);
+                    $item->delete();
                     break;
 
                 default:
                     return back()->with('error', 'Tipe penolakan tidak valid.');
             }
 
-            AuditLog::record('reject', $item, [], ['status' => $item->status]);
+            AuditLog::record('reject', $item, [], [
+                'status' => $item->status ?? 'REJECTED',
+            ]);
 
             return back()->with('success', 'Pengajuan berhasil ditolak.');
         } catch (Exception $e) {
@@ -193,3 +198,4 @@ class ApprovalController extends Controller
         }
     }
 }
+

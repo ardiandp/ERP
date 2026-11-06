@@ -63,3 +63,4 @@ class SettingController extends Controller
         return back()->with('success', 'Pengaturan sistem berhasil diperbarui.');
     }
 }
+

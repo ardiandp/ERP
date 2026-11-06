@@ -19,4 +19,9 @@ class OvertimeRecord extends Model
     {
         return $this->belongsTo(Attendance::class);
     }
+
+    public function getHoursAttribute(): float
+    {
+        return round(($this->duration_minutes ?? 0) / 60, 1);
+    }
 }

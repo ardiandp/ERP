@@ -18,6 +18,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DigitalAccountController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeePortalController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\GoodsReceiptController;
@@ -118,6 +119,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('commissions', [CommissionController::class, 'index'])->name('commissions.index');
 
+    Route::get('bookings/schedule', [BookingController::class, 'schedule'])->name('bookings.schedule');
     Route::resource('bookings', BookingController::class);
     Route::patch('bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.status');
     Route::post('bookings/{booking}/items', [BookingController::class, 'storeItem'])->name('bookings.items.store');
@@ -207,6 +209,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
+
+    Route::prefix('portal')->name('portal.')->group(function () {
+        Route::get('/', [EmployeePortalController::class, 'profile'])->name('profile');
+        Route::get('attendance', [EmployeePortalController::class, 'attendance'])->name('attendance');
+        Route::post('overtime', [EmployeePortalController::class, 'submitOvertime'])->name('overtime.submit');
+        Route::get('payslips', [EmployeePortalController::class, 'payslips'])->name('payslips');
+    });
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.readAll');

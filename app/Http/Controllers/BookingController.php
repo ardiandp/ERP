@@ -24,6 +24,42 @@ class BookingController extends Controller
         return view('bookings.index', ['bookings' => $bookings]);
     }
 
+    public function schedule(Request $request)
+    {
+        $date = $request->input('date', now()->toDateString());
+        $branchId = $request->integer('branch_id') ?: null;
+
+        $bookings = Booking::with(['customer', 'branch', 'items.service', 'items.package', 'items.employee'])
+            ->whereDate('booking_date', $date)
+            ->when($branchId, fn ($q) => $q->where('branch_id', $branchId))
+            ->orderBy('start_time')
+            ->get();
+
+        $branches = Branch::orderBy('name')->get();
+        $employees = Employee::where('status', 'ACTIVE')
+            ->when($branchId, fn ($q) => $q->where('branch_id', $branchId))
+            ->orderBy('full_name')
+            ->get();
+
+        $summary = [
+            'total' => $bookings->count(),
+            'booked' => $bookings->where('status', 'BOOKED')->count(),
+            'confirmed' => $bookings->where('status', 'CONFIRMED')->count(),
+            'in_progress' => $bookings->where('status', 'IN_PROGRESS')->count(),
+            'completed' => $bookings->where('status', 'COMPLETED')->count(),
+            'cancelled' => $bookings->where('status', 'CANCELLED')->count(),
+        ];
+
+        return view('bookings.schedule', compact(
+            'bookings',
+            'date',
+            'branchId',
+            'branches',
+            'employees',
+            'summary'
+        ));
+    }
+
     public function create()
     {
         return view('bookings.create', $this->formData());

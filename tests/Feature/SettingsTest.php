@@ -56,3 +56,4 @@ class SettingsTest extends TestCase
         $this->assertEquals('10', Setting::getValue('inventory.low_stock_threshold'));
     }
 }
+

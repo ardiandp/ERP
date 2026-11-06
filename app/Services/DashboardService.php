@@ -70,7 +70,7 @@ class DashboardService
                 + OvertimeRecord::where('status', 'PENDING')
                     ->when($branchId, fn ($q) => $q->whereHas('employee', fn ($e) => $e->where('branch_id', $branchId)))
                     ->count()
-                + AssetMovement::where('status', 'PENDING')->count(),
+                + AssetMovement::whereNull('approved_by')->count(),
             'branch_performance' => SalesTransaction::where('status', 'COMPLETED')
                 ->whereBetween('transaction_date', [$monthStart, $monthEnd])
                 ->when($branchId, fn ($q) => $q->where('branch_id', $branchId))

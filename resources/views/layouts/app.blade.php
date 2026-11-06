@@ -127,6 +127,7 @@
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item"><a href="{{ route('sales.create') }}" class="sidebar-link"><i class="mdi mdi-point-of-sale"></i><span class="hide-menu">POS / Kasir</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('sales.index') }}" class="sidebar-link"><i class="mdi mdi-receipt"></i><span class="hide-menu">Sales</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('bookings.schedule') }}" class="sidebar-link"><i class="mdi mdi-calendar-clock"></i><span class="hide-menu">Jadwal / Kalender</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('bookings.index') }}" class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">Bookings</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('sales.returns.index') }}" class="sidebar-link"><i class="mdi mdi-backup-restore"></i><span class="hide-menu">Returns</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('commissions.index') }}" class="sidebar-link"><i class="mdi mdi-percent"></i><span class="hide-menu">Commissions</span></a></li>
@@ -188,6 +189,17 @@
                         <a class="sidebar-link waves-effect waves-dark {{ request()->routeIs('approvals.*') ? 'active' : '' }}" href="{{ route('approvals.index') }}" aria-expanded="false">
                             <i class="mdi mdi-checkbox-marked-circle-outline"></i><span class="hide-menu">Pusat Persetujuan</span>
                         </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                            <i class="mdi mdi-account-circle"></i><span class="hide-menu">Portal Karyawan (ESS)</span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse first-level">
+                            <li class="sidebar-item"><a href="{{ route('portal.profile') }}" class="sidebar-link"><i class="mdi mdi-account-box-outline"></i><span class="hide-menu">Profil Saya</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('portal.attendance') }}" class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">Absensi &amp; Lembur</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('portal.payslips') }}" class="sidebar-link"><i class="mdi mdi-file-document-box-outline"></i><span class="hide-menu">Slip Gaji Saya</span></a></li>
+                        </ul>
                     </li>
 
                     <li class="sidebar-item">

@@ -100,3 +100,4 @@ class UserManagementTest extends TestCase
         $this->assertEquals('ACTIVE', $user->fresh()->status);
     }
 }
+

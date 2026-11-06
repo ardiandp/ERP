@@ -136,3 +136,4 @@ class ApprovalsTest extends TestCase
         $this->assertEquals('REJECTED', $expense->fresh()->status);
     }
 }
+
