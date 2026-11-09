@@ -29,4 +29,9 @@ class SalesTransaction extends Model
     {
         return $this->hasMany(Payment::class, 'transaction_id')->where('transaction_type', 'SALE');
     }
+
+    public function cashier()
+    {
+        return $this->belongsTo(User::class, 'cashier_id');
+    }
 }

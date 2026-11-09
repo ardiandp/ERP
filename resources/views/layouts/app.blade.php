@@ -126,7 +126,8 @@
                         </a>
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item"><a href="{{ route('sales.create') }}" class="sidebar-link"><i class="mdi mdi-point-of-sale"></i><span class="hide-menu">POS / Kasir</span></a></li>
-                            <li class="sidebar-item"><a href="{{ route('sales.index') }}" class="sidebar-link"><i class="mdi mdi-receipt"></i><span class="hide-menu">Sales</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('sales.closing') }}" class="sidebar-link"><i class="mdi mdi-cash-register"></i><span class="hide-menu">Tutup Kasir Harian</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('sales.index') }}" class="sidebar-link"><i class="mdi mdi-receipt"></i><span class="hide-menu">Sales History</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('bookings.schedule') }}" class="sidebar-link"><i class="mdi mdi-calendar-clock"></i><span class="hide-menu">Jadwal / Kalender</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('bookings.index') }}" class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">Bookings</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('sales.returns.index') }}" class="sidebar-link"><i class="mdi mdi-backup-restore"></i><span class="hide-menu">Returns</span></a></li>

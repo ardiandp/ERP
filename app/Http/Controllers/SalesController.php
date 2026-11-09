@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\SalesTransaction;
 use App\Models\Service;
 use App\Models\ServicePackage;
+use App\Models\User;
 use App\Models\Warehouse;
 use App\Services\PricingService;
 use App\Services\SalesService;
@@ -123,6 +124,109 @@ class SalesController extends Controller
         ]);
     }
 
+    public function closing(Request $request)
+    {
+        $date = $request->input('date', now()->toDateString());
+        $branchId = $request->integer('branch_id') ?: null;
+        $cashierId = $request->integer('cashier_id') ?: null;
+
+        $query = SalesTransaction::with(['customer', 'branch', 'cashier', 'payments.paymentMethod', 'items'])
+            ->where('status', 'COMPLETED')
+            ->whereDate('transaction_date', $date)
+            ->when($branchId, fn ($q) => $q->where('branch_id', $branchId))
+            ->when($cashierId, fn ($q) => $q->where('cashier_id', $cashierId))
+            ->latest('id');
+
+        $transactions = $query->get();
+
+        $totalRevenue = (float) $transactions->sum('grand_total');
+        $totalTransactions = $transactions->count();
+        $totalItems = $transactions->sum(fn ($tx) => $tx->items->sum('quantity'));
+
+        $paymentsByMethod = [];
+        $totalCash = 0;
+        $totalNonCash = 0;
+
+        foreach ($transactions as $tx) {
+            foreach ($tx->payments as $payment) {
+                $mName = $payment->paymentMethod?->name ?? 'Lainnya';
+                $paymentsByMethod[$mName] = ($paymentsByMethod[$mName] ?? 0) + (float) $payment->amount;
+                if ($payment->paymentMethod?->method_type === 'CASH') {
+                    $totalCash += (float) $payment->amount;
+                } else {
+                    $totalNonCash += (float) $payment->amount;
+                }
+            }
+        }
+
+        $branches = Branch::where('status', 'ACTIVE')->orderBy('name')->get();
+        $cashiers = User::orderBy('name')->get();
+
+        return view('sales.closing', compact(
+            'transactions',
+            'date',
+            'branchId',
+            'cashierId',
+            'totalRevenue',
+            'totalTransactions',
+            'totalItems',
+            'paymentsByMethod',
+            'totalCash',
+            'totalNonCash',
+            'branches',
+            'cashiers'
+        ));
+    }
+
+    public function printClosing(Request $request)
+    {
+        $date = $request->input('date', now()->toDateString());
+        $branchId = $request->integer('branch_id') ?: null;
+        $cashierId = $request->integer('cashier_id') ?: null;
+
+        $query = SalesTransaction::with(['customer', 'branch', 'cashier', 'payments.paymentMethod', 'items'])
+            ->where('status', 'COMPLETED')
+            ->whereDate('transaction_date', $date)
+            ->when($branchId, fn ($q) => $q->where('branch_id', $branchId))
+            ->when($cashierId, fn ($q) => $q->where('cashier_id', $cashierId))
+            ->orderBy('id');
+
+        $transactions = $query->get();
+        $totalRevenue = (float) $transactions->sum('grand_total');
+        $totalTransactions = $transactions->count();
+
+        $paymentsByMethod = [];
+        $totalCash = 0;
+        $totalNonCash = 0;
+
+        foreach ($transactions as $tx) {
+            foreach ($tx->payments as $payment) {
+                $mName = $payment->paymentMethod?->name ?? 'Lainnya';
+                $paymentsByMethod[$mName] = ($paymentsByMethod[$mName] ?? 0) + (float) $payment->amount;
+                if ($payment->paymentMethod?->method_type === 'CASH') {
+                    $totalCash += (float) $payment->amount;
+                } else {
+                    $totalNonCash += (float) $payment->amount;
+                }
+            }
+        }
+
+        $branch = $branchId ? Branch::find($branchId) : null;
+        $cashier = $cashierId ? User::find($cashierId) : null;
+
+        return view('sales.closing_print', compact(
+            'transactions',
+            'date',
+            'branch',
+            'cashier',
+            'totalRevenue',
+            'totalTransactions',
+            'paymentsByMethod',
+            'totalCash',
+            'totalNonCash'
+        ));
+    }
+
     protected function withPayment(array $data): array
     {
         if (! empty($data['payment_method_id']) && ! empty($data['paid_amount'])) {
@@ -179,27 +283,42 @@ class SalesController extends Controller
     {
         $catalog = [];
 
-        foreach (Product::where('status', 'ACTIVE')->orderBy('name')->get() as $product) {
+        foreach (Product::with('category')->where('status', 'ACTIVE')->orderBy('name')->get() as $product) {
             $catalog["PRODUCT:{$product->id}"] = [
-                'label' => "[Produk] {$product->name}",
+                'ref' => "PRODUCT:{$product->id}",
+                'name' => $product->name,
+                'category' => $product->category?->name ?? 'Produk Retail',
+                'code' => $product->sku,
                 'price' => $this->pricing->productPrice($product),
                 'type' => 'PRODUCT',
+                'duration' => null,
+                'label' => "[Produk] {$product->name}",
             ];
         }
 
-        foreach (Service::where('status', 'ACTIVE')->orderBy('name')->get() as $service) {
+        foreach (Service::with('category')->where('status', 'ACTIVE')->orderBy('name')->get() as $service) {
             $catalog["SERVICE:{$service->id}"] = [
-                'label' => "[Layanan] {$service->name}",
+                'ref' => "SERVICE:{$service->id}",
+                'name' => $service->name,
+                'category' => $service->category?->name ?? 'Layanan Spa',
+                'code' => $service->service_code,
                 'price' => $this->pricing->servicePrice($service),
                 'type' => 'SERVICE',
+                'duration' => $service->default_duration_minutes ? "{$service->default_duration_minutes}m" : null,
+                'label' => "[Layanan] {$service->name}",
             ];
         }
 
         foreach (ServicePackage::where('status', 'ACTIVE')->orderBy('name')->get() as $package) {
             $catalog["PACKAGE:{$package->id}"] = [
-                'label' => "[Paket] {$package->name}",
+                'ref' => "PACKAGE:{$package->id}",
+                'name' => $package->name,
+                'category' => 'Paket Treatment',
+                'code' => $package->code,
                 'price' => $this->pricing->packagePrice($package),
                 'type' => 'PACKAGE',
+                'duration' => null,
+                'label' => "[Paket] {$package->name}",
             ];
         }
 

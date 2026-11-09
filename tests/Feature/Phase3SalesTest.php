@@ -208,4 +208,42 @@ class Phase3SalesTest extends TestCase
         $afterReturn = InventoryStock::where('warehouse_id', $warehouse->id)->where('product_id', $product->id)->value('quantity');
         $this->assertEquals((float) $afterSale + 2, (float) $afterReturn);
     }
+
+    public function test_cashier_closing_page_and_print_render(): void
+    {
+        $branch = Branch::firstOrFail();
+
+        $transaction = SalesTransaction::create([
+            'invoice_number' => 'INV-CLOSE-001',
+            'branch_id' => $branch->id,
+            'cashier_id' => $this->admin->id,
+            'transaction_date' => now()->toDateString(),
+            'subtotal' => 150000,
+            'discount' => 0,
+            'tax' => 0,
+            'grand_total' => 150000,
+            'status' => 'COMPLETED',
+        ]);
+
+        $method = PaymentMethod::firstOrFail();
+        $transaction->payments()->create([
+            'payment_number' => 'PAY-CLOSE-001',
+            'transaction_type' => 'SALE',
+            'transaction_id' => $transaction->id,
+            'payment_method_id' => $method->id,
+            'amount' => 150000,
+            'payment_date' => now()->toDateString(),
+            'status' => 'PAID',
+        ]);
+
+        $response = $this->actingAs($this->admin)->get(route('sales.closing', ['date' => now()->toDateString()]));
+        $response->assertOk();
+        $response->assertSee('Tutup Kasir');
+        $response->assertSee('INV-CLOSE-001');
+
+        $printResponse = $this->actingAs($this->admin)->get(route('sales.closing.print', ['date' => now()->toDateString()]));
+        $printResponse->assertOk();
+        $printResponse->assertSee('BERITA ACARA TUTUP KASIR');
+        $printResponse->assertSee('Rekapitulasi Metode Penerimaan');
+    }
 }

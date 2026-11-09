@@ -111,6 +111,8 @@ Route::middleware('auth')->group(function () {
     Route::get('sales', [SalesController::class, 'index'])->name('sales.index');
     Route::get('sales/create', [SalesController::class, 'create'])->name('sales.create');
     Route::post('sales', [SalesController::class, 'store'])->name('sales.store');
+    Route::get('sales/closing', [SalesController::class, 'closing'])->name('sales.closing');
+    Route::get('sales/closing/print', [SalesController::class, 'printClosing'])->name('sales.closing.print');
     Route::post('sales/{sale}/payments', [PaymentController::class, 'store'])->name('sales.payments.store');
     Route::get('sales/{sale}', [SalesController::class, 'show'])->name('sales.show');
     Route::get('sales/{sale}/print', [SalesController::class, 'print'])->name('sales.print');
