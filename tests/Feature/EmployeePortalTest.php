@@ -121,3 +121,4 @@ class EmployeePortalTest extends TestCase
         $response->assertSee('Rp 3.000.000');
     }
 }
+

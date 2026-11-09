@@ -105,3 +105,4 @@ class EmployeePortalController extends Controller
         return view('portal.payslips', compact('employee', 'payslips'));
     }
 }
+

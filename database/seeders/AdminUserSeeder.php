@@ -11,14 +11,26 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::updateOrCreate(
-            ['email' => 'admin@dianmustika.test'],
-            ['name' => 'Administrator', 'password' => Hash::make('password'), 'status' => 'ACTIVE']
-        );
+        $ownerRole = Role::where('name', 'owner')->first();
+        $adminRole = Role::where('name', 'admin')->first();
 
-        $owner = Role::where('name', 'owner')->first();
-        if ($owner) {
-            $user->roles()->syncWithoutDetaching([$owner->id]);
+        $owner = User::updateOrCreate(
+            ['email' => 'owner@dianmustika.test'],
+            ['name' => 'Dian Mustika (Owner)', 'password' => Hash::make('password'), 'status' => 'ACTIVE']
+        );
+        if ($ownerRole) {
+            $owner->roles()->syncWithoutDetaching([$ownerRole->id]);
+        }
+
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@dianmustika.test'],
+            ['name' => 'System Administrator', 'password' => Hash::make('password'), 'status' => 'ACTIVE']
+        );
+        if ($adminRole) {
+            $admin->roles()->syncWithoutDetaching([$adminRole->id]);
+        }
+        if ($ownerRole) {
+            $admin->roles()->syncWithoutDetaching([$ownerRole->id]);
         }
     }
 }

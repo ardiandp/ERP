@@ -67,3 +67,4 @@ class BookingScheduleTest extends TestCase
         $response->assertSee('Total Reservasi');
     }
 }
+
