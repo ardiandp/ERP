@@ -17,17 +17,22 @@
     <div class="col-md-2"><button class="btn btn-outline-secondary w-100">Filter</button></div>
 </form>
 <table class="table table-striped">
-    <thead><tr><th>Warehouse</th><th>Product</th><th class="text-end">Stock</th><th class="text-end">Reserved</th></tr></thead>
+    <thead><tr><th>Warehouse</th><th>Product</th><th class="text-end">Stock</th><th class="text-end">Reserved</th><th class="text-center" style="width: 15%;">Aksi</th></tr></thead>
     <tbody>
         @forelse($stocks as $stock)
         <tr>
             <td>{{ $stock->warehouse?->name }}</td>
-            <td>{{ $stock->product?->name }} <small class="text-muted">{{ $stock->product?->sku }}</small></td>
-            <td class="text-end">{{ number_format((float) $stock->quantity, 2) }}</td>
-            <td class="text-end">{{ number_format((float) $stock->reserved_quantity, 2) }}</td>
+            <td>{{ $stock->product?->name }} <small class="text-muted">({{ $stock->product?->sku }})</small></td>
+            <td class="text-end fw-bold">{{ number_format((float) $stock->quantity, 0, ',', '.') }}</td>
+            <td class="text-end text-muted">{{ number_format((float) $stock->reserved_quantity, 0, ',', '.') }}</td>
+            <td class="text-center">
+                <a href="{{ route('inventory.movements', ['warehouse_id' => $stock->warehouse_id, 'product_id' => $stock->product_id]) }}" class="btn btn-sm btn-outline-info" title="Lihat Kartu Stok Mutasi">
+                    <i class="mdi mdi-history"></i> Kartu Stok
+                </a>
+            </td>
         </tr>
         @empty
-        <tr><td colspan="4">Belum ada data.</td></tr>
+        <tr><td colspan="5">Belum ada data.</td></tr>
         @endforelse
     </tbody>
 </table>

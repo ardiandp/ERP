@@ -44,6 +44,23 @@ class ReportController extends Controller
         }, $type.'-'.now()->format('Ymd-His').'.csv', ['Content-Type' => 'text/csv']);
     }
 
+    public function print(Request $request)
+    {
+        $types = $this->service->types();
+        $type = $request->input('type', 'sales_daily');
+        abort_unless(isset($types[$type]), 404);
+        $filters = $this->filters($request);
+        $report = $this->service->build($type, $filters);
+        $branch = ! empty($filters['branch_id']) ? Branch::find($filters['branch_id']) : null;
+
+        return view('reports.print', [
+            'type' => $type,
+            'filters' => $filters,
+            'branch' => $branch,
+            'report' => $report,
+        ]);
+    }
+
     protected function filters(Request $request): array
     {
         return [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Employee;
@@ -34,14 +35,45 @@ class SalesController extends Controller
         return view('sales.index', ['transactions' => $transactions]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('sales.create', $this->formData());
+        $booking = null;
+        $bookingItems = [];
+        if ($request->filled('booking_id')) {
+            $booking = Booking::with(['customer', 'branch', 'items.service', 'items.package', 'items.employee'])
+                ->find($request->input('booking_id'));
+
+            if ($booking) {
+                foreach ($booking->items as $bItem) {
+                    if ($bItem->service_id && $bItem->service) {
+                        $bookingItems[] = [
+                            'ref' => "SERVICE:{$bItem->service_id}",
+                            'quantity' => 1,
+                            'price' => $this->pricing->servicePrice($bItem->service),
+                            'employee_id' => $bItem->employee_id,
+                        ];
+                    } elseif ($bItem->package_id && $bItem->package) {
+                        $bookingItems[] = [
+                            'ref' => "PACKAGE:{$bItem->package_id}",
+                            'quantity' => 1,
+                            'price' => $this->pricing->packagePrice($bItem->package),
+                            'employee_id' => $bItem->employee_id,
+                        ];
+                    }
+                }
+            }
+        }
+
+        return view('sales.create', array_merge($this->formData(), [
+            'booking' => $booking,
+            'bookingItems' => $bookingItems,
+        ]));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
+            'booking_id' => ['nullable', 'exists:bookings,id'],
             'branch_id' => ['required', 'exists:branches,id'],
             'customer_id' => ['nullable', 'exists:customers,id'],
             'warehouse_id' => ['nullable', 'exists:warehouses,id'],
@@ -61,6 +93,10 @@ class SalesController extends Controller
 
         try {
             $transaction = $this->sales->create($this->withPayment($data), $this->mapItems($request->input('items')));
+
+            if ($request->filled('booking_id')) {
+                Booking::where('id', $request->input('booking_id'))->update(['status' => 'COMPLETED']);
+            }
         } catch (InvalidArgumentException|RuntimeException $exception) {
             return back()->withInput()->withErrors(['items' => $exception->getMessage()]);
         }

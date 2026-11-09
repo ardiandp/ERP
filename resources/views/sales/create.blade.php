@@ -1,14 +1,29 @@
 @extends('layouts.app')
 @section('content')
 <h4 class="mb-3">POS / Kasir</h4>
+
+@if(isset($booking) && $booking)
+<div class="alert alert-info py-2 mb-3 d-flex justify-content-between align-items-center">
+    <div>
+        <i class="mdi mdi-information-outline font-18 align-middle mr-1"></i>
+        Mengonversi Reservasi <strong>#{{ $booking->booking_number }}</strong> (Pelanggan: <strong>{{ $booking->customer?->name }}</strong>) ke Transaksi Penjualan.
+    </div>
+    <span class="badge badge-info">{{ $booking->status }}</span>
+</div>
+<input type="hidden" name="booking_id" form="pos-form" value="{{ $booking->id }}">
+@endif
+
 <form method="POST" action="{{ route('sales.store') }}" id="pos-form">
     @csrf
+    @if(isset($booking) && $booking)
+    <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+    @endif
     <div class="row g-3 mb-3">
         <div class="col-md-3">
             <label class="form-label">Branch</label>
             <select name="branch_id" class="form-select">
                 @foreach($branches as $branch)
-                <option value="{{ $branch->id }}" @selected((string) old('branch_id') === (string) $branch->id)>{{ $branch->name }}</option>
+                <option value="{{ $branch->id }}" @selected((string) old('branch_id', optional($booking ?? null)->branch_id) === (string) $branch->id)>{{ $branch->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -17,7 +32,7 @@
             <select name="customer_id" class="form-select">
                 <option value="">Umum</option>
                 @foreach($customers as $customer)
-                <option value="{{ $customer->id }}" @selected((string) old('customer_id') === (string) $customer->id)>{{ $customer->name }}</option>
+                <option value="{{ $customer->id }}" @selected((string) old('customer_id', optional($booking ?? null)->customer_id) === (string) $customer->id)>{{ $customer->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -63,7 +78,7 @@
                     </td>
                 </tr>
                 <tr><th>Jumlah Bayar</th><td><input type="number" step="any" name="paid_amount" class="form-control form-control-sm text-end" value="{{ old('paid_amount', 0) }}"></td></tr>
-                <tr><th>Catatan</th><td><textarea name="notes" class="form-control form-control-sm">{{ old('notes') }}</textarea></td></tr>
+                <tr><th>Catatan</th><td><textarea name="notes" class="form-control form-control-sm">{{ old('notes', isset($booking) && $booking ? 'Tagihan reservasi booking #' . $booking->booking_number : '') }}</textarea></td></tr>
             </table>
         </div>
     </div>
@@ -86,7 +101,7 @@
         <td><input type="number" step="any" name="items[__i__][unit_price]" class="form-control form-control-sm item-price" value="0"></td>
         <td><input type="number" step="any" name="items[__i__][discount]" class="form-control form-control-sm item-discount" value="0"></td>
         <td>
-            <select name="items[__i__][employee_id]" class="form-select form-select-sm">
+            <select name="items[__i__][employee_id]" class="form-select form-select-sm item-employee">
                 <option value="">-</option>
                 @foreach($employees as $employee)
                 <option value="{{ $employee->id }}">{{ $employee->full_name }}</option>
@@ -104,6 +119,7 @@
 (function () {
     const body = document.getElementById('items-body');
     const template = document.getElementById('row-template').innerHTML;
+    const initialItems = @json($bookingItems ?? []);
     let index = 0;
 
     function recalc() {
@@ -122,13 +138,28 @@
         document.getElementById('grand-total').textContent = Math.max(0, subtotal - tdisc + tax).toFixed(2);
     }
 
-    function addRow() {
+    function addRow(data) {
         const html = template.replace(/__i__/g, index++);
         body.insertAdjacentHTML('beforeend', html);
+        const lastRow = body.lastElementChild;
+        if (data) {
+            if (data.ref) {
+                lastRow.querySelector('.item-ref').value = data.ref;
+            }
+            if (data.quantity) {
+                lastRow.querySelector('.item-qty').value = data.quantity;
+            }
+            if (data.price !== undefined) {
+                lastRow.querySelector('.item-price').value = data.price;
+            }
+            if (data.employee_id) {
+                lastRow.querySelector('.item-employee').value = data.employee_id;
+            }
+        }
         recalc();
     }
 
-    document.getElementById('add-row').addEventListener('click', addRow);
+    document.getElementById('add-row').addEventListener('click', function () { addRow(); });
 
     body.addEventListener('input', recalc);
     document.getElementById('discount').addEventListener('input', recalc);
@@ -150,7 +181,13 @@
         }
     });
 
-    addRow();
+    if (initialItems && initialItems.length > 0) {
+        initialItems.forEach(function (item) {
+            addRow(item);
+        });
+    } else {
+        addRow();
+    }
 })();
 </script>
 @endpush

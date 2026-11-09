@@ -57,6 +57,13 @@ class StockTransferController extends Controller
         return view('stock-transfers.show', ['transfer' => $stock_transfer]);
     }
 
+    public function print(StockTransfer $stock_transfer)
+    {
+        $stock_transfer->load(['fromWarehouse.branch.company', 'toWarehouse.branch', 'items.product.unit', 'requester', 'approver']);
+
+        return view('stock-transfers.print', ['transfer' => $stock_transfer]);
+    }
+
     public function approve(StockTransfer $stock_transfer)
     {
         try {

@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
     Route::get('purchase-orders/create', [PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
     Route::post('purchase-orders', [PurchaseOrderController::class, 'store'])->name('purchase-orders.store');
     Route::get('purchase-orders/{purchase_order}', [PurchaseOrderController::class, 'show'])->name('purchase-orders.show');
+    Route::get('purchase-orders/{purchase_order}/print', [PurchaseOrderController::class, 'print'])->name('purchase-orders.print');
     Route::patch('purchase-orders/{purchase_order}/approve', [PurchaseOrderController::class, 'approve'])->name('purchase-orders.approve');
     Route::delete('purchase-orders/{purchase_order}', [PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
 
@@ -98,6 +99,7 @@ Route::middleware('auth')->group(function () {
     Route::get('stock-transfers/create', [StockTransferController::class, 'create'])->name('stock-transfers.create');
     Route::post('stock-transfers', [StockTransferController::class, 'store'])->name('stock-transfers.store');
     Route::get('stock-transfers/{stock_transfer}', [StockTransferController::class, 'show'])->name('stock-transfers.show');
+    Route::get('stock-transfers/{stock_transfer}/print', [StockTransferController::class, 'print'])->name('stock-transfers.print');
     Route::patch('stock-transfers/{stock_transfer}/approve', [StockTransferController::class, 'approve'])->name('stock-transfers.approve');
 
     Route::get('stock-opnames', [StockOpnameController::class, 'index'])->name('stock-opnames.index');
@@ -199,6 +201,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('reports/export', [ReportController::class, 'export'])->name('reports.export');
+    Route::get('reports/print', [ReportController::class, 'print'])->name('reports.print');
 
     Route::get('approvals', [ApprovalController::class, 'index'])->name('approvals.index');
     Route::patch('approvals/{type}/{id}/approve', [ApprovalController::class, 'approve'])->name('approvals.approve');

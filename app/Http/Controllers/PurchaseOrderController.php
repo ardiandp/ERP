@@ -62,6 +62,13 @@ class PurchaseOrderController extends Controller
         return view('purchase-orders.show', ['order' => $purchase_order]);
     }
 
+    public function print(PurchaseOrder $purchase_order)
+    {
+        $purchase_order->load(['supplier.bankAccounts.bank', 'branch.company', 'items.product.unit', 'creator', 'approver']);
+
+        return view('purchase-orders.print', ['order' => $purchase_order]);
+    }
+
     public function approve(PurchaseOrder $purchase_order)
     {
         try {

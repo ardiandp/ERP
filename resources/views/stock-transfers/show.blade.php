@@ -2,7 +2,10 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>Transfer {{ $transfer->transfer_number }}</h4>
-    <a href="{{ route('stock-transfers.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
+    <div>
+        <a href="{{ route('stock-transfers.print', $transfer) }}" target="_blank" class="btn btn-outline-info btn-sm"><i class="mdi mdi-printer"></i> Cetak Surat Jalan</a>
+        <a href="{{ route('stock-transfers.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
+    </div>
 </div>
 
 <div class="row mb-3">

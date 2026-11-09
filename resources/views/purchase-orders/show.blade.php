@@ -3,6 +3,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>Purchase Order {{ $order->po_number }}</h4>
     <div>
+        <a href="{{ route('purchase-orders.print', $order) }}" target="_blank" class="btn btn-outline-info btn-sm"><i class="mdi mdi-printer"></i> Cetak PO</a>
         <a href="{{ route('goods-receipts.create', ['purchase_order' => $order->id]) }}" class="btn btn-outline-primary btn-sm">Terima Barang</a>
         <a href="{{ route('purchase-orders.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
     </div>

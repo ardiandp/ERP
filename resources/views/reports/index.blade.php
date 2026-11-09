@@ -3,7 +3,10 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>Reports</h4>
-    <a href="{{ route('reports.export', request()->query()) }}" class="btn btn-success btn-sm">Export CSV</a>
+    <div>
+        <a href="{{ route('reports.print', request()->query()) }}" target="_blank" class="btn btn-outline-primary btn-sm me-1"><i class="mdi mdi-printer"></i> Cetak / Print PDF</a>
+        <a href="{{ route('reports.export', request()->query()) }}" class="btn btn-success btn-sm"><i class="mdi mdi-file-delimited"></i> Export CSV</a>
+    </div>
 </div>
 
 <form method="GET" action="{{ route('reports.index') }}" class="row g-2 mb-3">

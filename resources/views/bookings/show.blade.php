@@ -3,6 +3,11 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>Booking {{ $booking->booking_number }}</h4>
     <div>
+        @if(in_array($booking->status, ['CONFIRMED', 'IN_PROGRESS', 'BOOKED']))
+        <a href="{{ route('sales.create', ['booking_id' => $booking->id]) }}" class="btn btn-success btn-sm">
+            <i class="mdi mdi-cash-register"></i> Proses ke Kasir / Buat Tagihan
+        </a>
+        @endif
         <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-outline-secondary btn-sm">Edit</a>
         <a href="{{ route('bookings.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
     </div>
