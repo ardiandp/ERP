@@ -135,6 +135,9 @@ Route::middleware('auth')->group(function () {
     Route::get('bank-transactions', [BankTransactionController::class, 'index'])->name('bank-transactions.index');
     Route::get('bank-transactions/create', [BankTransactionController::class, 'create'])->name('bank-transactions.create');
     Route::post('bank-transactions', [BankTransactionController::class, 'store'])->name('bank-transactions.store');
+    Route::post('bank-transactions/accounts', [BankTransactionController::class, 'storeAccount'])->name('bank-transactions.accounts.store');
+    Route::post('bank-transactions/import-bca', [BankTransactionController::class, 'importBca'])->name('bank-transactions.import-bca');
+    Route::get('bank-transactions/export', [BankTransactionController::class, 'export'])->name('bank-transactions.export');
 
     Route::get('bank-reconciliations', [BankReconciliationController::class, 'index'])->name('bank-reconciliations.index');
     Route::get('bank-reconciliations/create', [BankReconciliationController::class, 'create'])->name('bank-reconciliations.create');

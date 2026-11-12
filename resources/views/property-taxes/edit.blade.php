@@ -227,3 +227,4 @@ function calcStatus() {
 document.addEventListener('DOMContentLoaded', calcStatus);
 </script>
 @endsection
+

@@ -210,12 +210,23 @@ Setiap staf/terapis dapat masuk menggunakan akun masing-masing untuk mengakses p
    - Pantau saldo kas operasional di menu **Finance** &rarr; **Kas & Bank** (`/finance`).
 2. **Pencatatan Pengeluaran (Expense)**:
    - Catat biaya operasional (listrik, internet, konsumsi, perlengkapan salon) pada menu **Pengeluaran** (`/expenses`).
-3. **Mutasi Bank & Rekonsiliasi**:
-   - Input atau sinkronkan mutasi rekening bank pada menu **Mutasi Bank** (`/bank-mutations`).
-   - Buka **Rekonsiliasi Bank** (`/bank-reconciliations`) untuk mencocokkan mutasi debit/kredit bank dengan transaksi pembayaran POS atau tagihan vendor.
-4. **Pengelolaan Tagihan Berkala (Bills)**:
+3. **Mutasi Bank & Smart Import BCA 1 Pintu** (`/bank-transactions`):
+   - **Smart Auto-Detection**: Import berkas CSV dari KlikBCA/myBCA tanpa perlu memilih format manual. Sistem otomatis mengenali:
+     - **BCA Individu** (misal atas nama Akhdan, Alya, Laya).
+     - **BCA Bisnis / CV** (misal atas nama CV Dian Mustika Care).
+   - **Pemisahan Data via Tab Switcher**:
+     - Setiap rekening bank dipisahkan ke dalam tab navigasi independen (`[Semua Rekening]`, `[BCA CV Dian Mustika]`, `[BCA Akhdan]`, `[BCA Alya]`, dsb.).
+     - Menampilkan indikator saldo berjalan, total uang masuk (CR), total uang keluar (DB), dan jumlah mutasi belum rekonsiliasi per rekening.
+   - **Penambahan Rekening Baru (Fleksibel)**:
+     - **Otomatis**: Jika mengunggah CSV rekening baru (misal BCA Laya), sistem membaca nomor rekening dan nama pemilik dari file lalu otomatis membuat rekening baru.
+     - **Manual**: Tersedia tombol **"+ Tambah Rekening"** untuk mendaftarkan rekening bank baru (BCA, Mandiri, BRI, BNI) beserta saldo awal.
+   - **Anti-Duplikasi Cerdas**: Fingerprint MD5 per baris transaksi mencegah data ganda saat file diunggah ulang.
+   - **Ekspor Mutasi**: Ekspor mutasi ke CSV dengan filter rekening dan rentang tanggal.
+4. **Rekonsiliasi Bank** (`/bank-reconciliations`):
+   - Mencocokkan mutasi debit/kredit bank dengan transaksi pembayaran POS atau tagihan vendor secara presisi.
+5. **Pengelolaan Tagihan Berkala (Bills)**:
    - Konfigurasikan template tagihan berulang (sewa gedung tahunan, internet bulanan, iuran kebersihan) pada menu **Tagihan** (`/bills`).
-5. **Pajak Bumi & Bangunan (PBB)** (`/property-taxes`):
+6. **Pajak Bumi & Bangunan (PBB)** (`/property-taxes`):
    - Pengelolaan SPPT PBB massal untuk aset tanah dan bangunan seluruh cabang.
    - Status bayar otomatis (`LUNAS`, `KURANG_BAYAR`, `BELUM_LUNAS`) berdasarkan ketetapan pajak dan realisasi pembayaran.
    - Fitur **Import CSV Massal** dan **Template CSV** untuk migrasi data dari aplikasi sebelumnya dalam jumlah besar.

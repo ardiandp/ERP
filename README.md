@@ -44,6 +44,7 @@
   - Profil staf, riwayat absensi, serta akses dan cetak slip gaji pribadi (terisolasi secara aman).
 - **Keuangan, Kas Operasional & Rekonsiliasi Bank**:
   - Kas kecil operasional cabang, pencatatan mutasi rekening bank, dan mesin rekonsiliasi otomatis antara transaksi bank dan invoice penjualan.
+  - **Smart 1-Door Import Mutasi Bank BCA**: Deteksi otomatis cerdas berkas ekspor CSV **BCA Individu** (misal Akhdan, Alya, Laya) & **BCA Bisnis** (CV Dian Mustika Care) dengan pemisahan tab rekening independen, indikator saldo real-time, anti-duplikasi MD5 fingerprint, dan pendaftaran otomatis rekening baru.
   - Manajemen tagihan berkala (listrik, internet, sewa gedung, BPJS).
 - **Pajak Bumi & Bangunan (PBB)**:
   - Pendataan massal SPPT PBB tanah dan bangunan operasional cabang & pusat.

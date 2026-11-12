@@ -13,8 +13,10 @@ class FinancialAccountSeeder extends Seeder
         $bca = Bank::where('code', 'BCA')->first();
 
         $accounts = [
-            ['account_code' => 'CASH-01', 'account_name' => 'Kas Utama', 'account_type' => 'CASH', 'bank_id' => null, 'opening_balance' => 0],
-            ['account_code' => 'BANK-BCA', 'account_name' => 'Bank BCA', 'account_type' => 'BANK', 'bank_id' => $bca?->id, 'opening_balance' => 0],
+            ['account_code' => 'CASH-01', 'account_name' => 'Kas Utama', 'account_number' => null, 'account_type' => 'CASH', 'bank_id' => null, 'opening_balance' => 0],
+            ['account_code' => 'BCA-CV-DM', 'account_name' => 'BCA CV Dian Mustika Care', 'account_number' => '8831216999', 'account_type' => 'BANK', 'bank_id' => $bca?->id, 'opening_balance' => 5642865.35],
+            ['account_code' => 'BCA-AKHDAN', 'account_name' => 'BCA Akhdan Fathur Rahman', 'account_number' => '8840430945', 'account_type' => 'BANK', 'bank_id' => $bca?->id, 'opening_balance' => 25228778.23],
+            ['account_code' => 'BCA-ALYA', 'account_name' => 'BCA Aliya Madaniya', 'account_number' => '7615476862', 'account_type' => 'BANK', 'bank_id' => $bca?->id, 'opening_balance' => 309990.80],
         ];
 
         foreach ($accounts as $account) {
@@ -23,6 +25,7 @@ class FinancialAccountSeeder extends Seeder
                 [
                     'account_type' => $account['account_type'],
                     'bank_id' => $account['bank_id'],
+                    'account_number' => $account['account_number'],
                     'account_name' => $account['account_name'],
                     'currency' => 'IDR',
                     'opening_balance' => $account['opening_balance'],
