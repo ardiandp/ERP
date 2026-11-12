@@ -11,7 +11,7 @@
         <a href="{{ route('bank-transactions.create') }}" class="btn btn-outline-secondary btn-sm me-1 shadow-sm">
             <i class="mdi mdi-plus"></i> Tambah Manual
         </a>
-        <button type="button" class="btn btn-primary btn-sm me-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalImportBca">
+        <button type="button" id="btnImportBca" class="btn btn-primary btn-sm me-1 shadow-sm" data-toggle="modal" data-target="#modalImportBca" data-bs-toggle="modal" data-bs-target="#modalImportBca">
             <i class="mdi mdi-upload"></i> Import Mutasi BCA
         </button>
         <a href="{{ route('bank-transactions.export', request()->query()) }}" class="btn btn-success btn-sm shadow-sm" title="Ekspor mutasi bank ke CSV">
@@ -60,7 +60,7 @@
                 @endforeach
             </div>
             <div>
-                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahRekening" title="Daftarkan Rekening Bank Baru">
+                <button type="button" id="btnTambahRekening" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modalTambahRekening" data-bs-toggle="modal" data-bs-target="#modalTambahRekening" title="Daftarkan Rekening Bank Baru">
                     <i class="mdi mdi-plus-circle"></i> Tambah Rekening
                 </button>
             </div>
@@ -285,48 +285,50 @@
 </div>
 
 <!-- Modal Import BCA (Auto-Detect Individu & Bisnis) -->
-<div class="modal fade" id="modalImportBca" tabindex="-1" aria-labelledby="modalImportBcaLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<div class="modal fade" id="modalImportBca" tabindex="-1" role="dialog" aria-labelledby="modalImportBcaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow">
             <form action="{{ route('bank-transactions.import-bca') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title fw-bold" id="modalImportBcaLabel"><i class="mdi mdi-bank-transfer-in"></i> Import Mutasi Bank BCA</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title font-weight-bold text-white mb-0" id="modalImportBcaLabel"><i class="mdi mdi-bank-transfer-in"></i> Import Mutasi Bank BCA</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="opacity: 0.9;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <div class="alert alert-info py-2 px-3 small mb-3">
                         <i class="mdi mdi-information-outline"></i> <strong>Deteksi Otomatis Cerdas:</strong>
                         Sistem mengenali langsung format <strong>BCA Individu (Akhdan, Alya)</strong> maupun <strong>BCA Bisnis (CV Dian Mustika)</strong> serta otomatis mencocokkan nomor rekening dari isi berkas.
                     </div>
 
                     <div class="mb-3">
-                        <label for="csv_file" class="form-label fw-bold small">Pilih Berkas CSV Mutasi BCA <span class="text-danger">*</span></label>
+                        <label for="csv_file" class="form-label font-weight-bold small">Pilih Berkas CSV Mutasi BCA <span class="text-danger">*</span></label>
                         <input type="file" name="csv_file" id="csv_file" class="form-control" accept=".csv,.txt" required>
-                        <small class="text-muted">Format: Ekspor file CSV dari KlikBCA Individu atau KlikBCA Bisnis (Maks. 15 MB).</small>
+                        <small class="text-muted d-block mt-1">Format: Ekspor file CSV dari KlikBCA Individu atau KlikBCA Bisnis (Maks. 15 MB).</small>
                     </div>
 
-                    <div class="row g-2 mb-3">
-                        <div class="col-md-6">
-                            <label for="year" class="form-label fw-bold small">Tahun Transaksi</label>
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-2 mb-md-0">
+                            <label for="year" class="form-label font-weight-bold small">Tahun Transaksi</label>
                             <input type="number" name="year" id="year" class="form-control" min="2000" max="2100" value="{{ date('Y') }}">
-                            <small class="text-muted">Untuk format tanpa tahun di kolom tanggal.</small>
+                            <small class="text-muted d-block mt-1">Untuk format tanpa tahun di kolom tanggal.</small>
                         </div>
                         <div class="col-md-6">
-                            <label for="financial_account_id" class="form-label fw-bold small">Akun Bank Tujuan</label>
-                            <select name="financial_account_id" id="financial_account_id" class="form-select">
+                            <label for="financial_account_id" class="form-label font-weight-bold small">Akun Bank Tujuan</label>
+                            <select name="financial_account_id" id="financial_account_id" class="form-control custom-select">
                                 <option value="">-- Otomatis Dari No. Rekening --</option>
                                 @foreach($accounts as $acc)
                                 <option value="{{ $acc->id }}" @selected($selectedAccountId === $acc->id)>{{ $acc->account_name }} ({{ $acc->account_number ?: '-' }})</option>
                                 @endforeach
                             </select>
-                            <small class="text-muted">Biarkan kosong agar sistem mencocokkan otomatis.</small>
+                            <small class="text-muted d-block mt-1">Biarkan kosong agar sistem mencocokkan otomatis.</small>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary btn-sm"><i class="mdi mdi-check"></i> Proses Import Mutasi</button>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary btn-sm font-weight-bold"><i class="mdi mdi-check"></i> Proses Import Mutasi</button>
                 </div>
             </form>
         </div>
@@ -334,53 +336,73 @@
 </div>
 
 <!-- Modal Tambah Rekening Bank Baru -->
-<div class="modal fade" id="modalTambahRekening" tabindex="-1" aria-labelledby="modalTambahRekeningLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<div class="modal fade" id="modalTambahRekening" tabindex="-1" role="dialog" aria-labelledby="modalTambahRekeningLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow">
             <form action="{{ route('bank-transactions.accounts.store') }}" method="POST">
                 @csrf
                 <div class="modal-header bg-dark text-white">
-                    <h5 class="modal-title fw-bold" id="modalTambahRekeningLabel"><i class="mdi mdi-bank-plus"></i> Tambah Rekening Bank Baru</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title font-weight-bold text-white mb-0" id="modalTambahRekeningLabel"><i class="mdi mdi-bank-plus"></i> Tambah Rekening Bank Baru</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="opacity: 0.9;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <div class="alert alert-light border py-2 px-3 small mb-3">
                         <i class="mdi mdi-information text-primary"></i> 
                         Daftarkan rekening baru (misal BCA individu atas nama Laya, Alya, rekening operasional, dsb). 
                         Rekening ini otomatis menjadi tab baru dan target impor mutasi.
                     </div>
 
-                    <div class="mb-3">
-                        <label for="new_bank_id" class="form-label fw-bold small">Pilih Bank</label>
-                        <select name="bank_id" id="new_bank_id" class="form-select">
+                    <div class="form-group mb-3">
+                        <label for="new_bank_id" class="form-label font-weight-bold small">Pilih Bank</label>
+                        <select name="bank_id" id="new_bank_id" class="form-control custom-select">
                             @foreach($banks as $b)
                             <option value="{{ $b->id }}" @selected(strtoupper($b->code) === 'BCA')>{{ $b->name }} ({{ $b->code }})</option>
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="new_account_number" class="form-label fw-bold small">Nomor Rekening <span class="text-danger">*</span></label>
+                    <div class="form-group mb-3">
+                        <label for="new_account_number" class="form-label font-weight-bold small">Nomor Rekening <span class="text-danger">*</span></label>
                         <input type="text" name="account_number" id="new_account_number" class="form-control font-monospace" placeholder="Contoh: 8840123456" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="new_account_name" class="form-label fw-bold small">Nama Akun / Atas Nama <span class="text-danger">*</span></label>
+                    <div class="form-group mb-3">
+                        <label for="new_account_name" class="form-label font-weight-bold small">Nama Akun / Atas Nama <span class="text-danger">*</span></label>
                         <input type="text" name="account_name" id="new_account_name" class="form-control" placeholder="Contoh: BCA Laya atau BCA CV Dian Mustika" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="new_opening_balance" class="form-label fw-bold small">Saldo Awal (Rp)</label>
+                    <div class="form-group mb-3">
+                        <label for="new_opening_balance" class="form-label font-weight-bold small">Saldo Awal (Rp)</label>
                         <input type="number" step="0.01" name="opening_balance" id="new_opening_balance" class="form-control" value="0" min="0">
-                        <small class="text-muted">Saldo awal pembukuan sebelum mutasi pertama.</small>
+                        <small class="text-muted d-block mt-1">Saldo awal pembukuan sebelum mutasi pertama.</small>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary btn-sm"><i class="mdi mdi-check"></i> Simpan Rekening</button>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary btn-sm font-weight-bold"><i class="mdi mdi-check"></i> Simpan Rekening</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Robust click handler for Import BCA modal
+    $('#btnImportBca, [data-target="#modalImportBca"], [data-bs-target="#modalImportBca"]').on('click', function(e) {
+        e.preventDefault();
+        $('#modalImportBca').modal('show');
+    });
+
+    // Robust click handler for Tambah Rekening modal
+    $('#btnTambahRekening, [data-target="#modalTambahRekening"], [data-bs-target="#modalTambahRekening"]').on('click', function(e) {
+        e.preventDefault();
+        $('#modalTambahRekening').modal('show');
+    });
+});
+</script>
+@endpush

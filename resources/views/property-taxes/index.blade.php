@@ -11,7 +11,7 @@
         <a href="{{ route('property-taxes.create') }}" class="btn btn-primary btn-sm me-1 shadow-sm">
             <i class="mdi mdi-plus-circle"></i> Tambah PBB
         </a>
-        <button type="button" class="btn btn-info btn-sm text-white me-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalImportCsv">
+        <button type="button" id="btnImportCsv" class="btn btn-info btn-sm text-white me-1 shadow-sm" data-toggle="modal" data-target="#modalImportCsv" data-bs-toggle="modal" data-bs-target="#modalImportCsv">
             <i class="mdi mdi-upload"></i> Import CSV
         </button>
         <a href="{{ route('property-taxes.template') }}" class="btn btn-outline-secondary btn-sm me-1 shadow-sm" title="Unduh format template CSV">
@@ -245,37 +245,50 @@
 </div>
 
 <!-- Modal Import CSV -->
-<div class="modal fade" id="modalImportCsv" tabindex="-1" aria-labelledby="modalImportCsvLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<div class="modal fade" id="modalImportCsv" tabindex="-1" role="dialog" aria-labelledby="modalImportCsvLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow">
             <form action="{{ route('property-taxes.import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bold" id="modalImportCsvLabel"><i class="mdi mdi-upload"></i> Import Data PBB dari CSV</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title font-weight-bold text-white mb-0" id="modalImportCsvLabel"><i class="mdi mdi-upload"></i> Import Data PBB dari CSV</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="opacity: 0.9;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <p class="small text-muted mb-3">
                         Gunakan fitur ini untuk memasukkan data PBB dalam jumlah besar dari aplikasi sebelumnya.
                         Header kolom CSV yang didukung:
                         <code>nop, alamat_op, desa, kecamatan, kota_kab, nama_wp, npwp, tahun, luas_bumi, luas_bangunan, pajak, sppt_yg_dibayar, tgl_bayar, keterangan</code>
                     </p>
                     <div class="mb-3">
-                        <label for="csv_file" class="form-label fw-bold small">Pilih File CSV (.csv / .txt) <span class="text-danger">*</span></label>
+                        <label for="csv_file" class="form-label font-weight-bold small">Pilih File CSV (.csv / .txt) <span class="text-danger">*</span></label>
                         <input type="file" name="csv_file" id="csv_file" class="form-control" accept=".csv,.txt" required>
-                        <small class="text-muted">Ukuran maksimal file: 10 MB.</small>
+                        <small class="text-muted d-block mt-1">Ukuran maksimal file: 10 MB.</small>
                     </div>
                     <div class="alert alert-info py-2 px-3 small mb-0">
-                        <i class="mdi mdi-information-outline"></i> Belum punya formatnya? <a href="{{ route('property-taxes.template') }}" class="fw-bold alert-link">Unduh Template CSV di sini</a>.
+                        <i class="mdi mdi-information-outline"></i> Belum punya formatnya? <a href="{{ route('property-taxes.template') }}" class="font-weight-bold alert-link">Unduh Template CSV di sini</a>.
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary btn-sm"><i class="mdi mdi-check"></i> Proses Import</button>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-info btn-sm text-white font-weight-bold"><i class="mdi mdi-check"></i> Proses Import</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    $('#btnImportCsv, [data-target="#modalImportCsv"], [data-bs-target="#modalImportCsv"]').on('click', function(e) {
+        e.preventDefault();
+        $('#modalImportCsv').modal('show');
+    });
+});
+</script>
+@endpush
 
