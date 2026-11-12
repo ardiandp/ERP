@@ -32,6 +32,7 @@ use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollPeriodController;
 use App\Http\Controllers\PayslipController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\PropertyTaxController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
@@ -152,6 +153,12 @@ Route::middleware('auth')->group(function () {
     Route::post('expenses', [ExpenseController::class, 'store'])->name('expenses.store');
     Route::get('expenses/{expense}', [ExpenseController::class, 'show'])->name('expenses.show');
     Route::patch('expenses/{expense}/approve', [ExpenseController::class, 'approve'])->name('expenses.approve');
+
+    Route::get('property-taxes/template', [PropertyTaxController::class, 'template'])->name('property-taxes.template');
+    Route::get('property-taxes/export', [PropertyTaxController::class, 'export'])->name('property-taxes.export');
+    Route::post('property-taxes/import', [PropertyTaxController::class, 'import'])->name('property-taxes.import');
+    Route::get('property-taxes/{property_tax}/print', [PropertyTaxController::class, 'print'])->name('property-taxes.print');
+    Route::resource('property-taxes', PropertyTaxController::class);
 
     Route::resource('shifts', ShiftController::class)->except('show');
     Route::post('shifts/assignments', [ShiftController::class, 'assign'])->name('shifts.assign');

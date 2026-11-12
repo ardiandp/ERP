@@ -10,7 +10,6 @@ use App\Models\AuditLog;
 use App\Models\Bank;
 use App\Models\BankTransaction;
 use App\Models\Bill;
-use App\Models\BillTemplate;
 use App\Models\Booking;
 use App\Models\BookingItem;
 use App\Models\Branch;
@@ -43,6 +42,7 @@ use App\Models\Position;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductPrice;
+use App\Models\PropertyTax;
 use App\Models\PurchaseOrder;
 use App\Models\Role;
 use App\Models\SalaryComponent;
@@ -119,6 +119,7 @@ class DummyDataSeeder extends Seeder
             $this->bankReconciliation();
             $this->payroll($employees);
             $this->assets($branch1, $branch2);
+            $this->propertyTaxes($branch1, $branch2);
             $this->media();
             $this->digitalAccounts();
             $this->auditLogs();
@@ -1110,6 +1111,102 @@ class DummyDataSeeder extends Seeder
                 'reason' => 'Peminjaman unit sterilizer cadangan (Menunggu Persetujuan)',
             ]);
             // Do NOT approve movement2, so approved_by remains null
+        }
+    }
+
+    protected function propertyTaxes(Branch $branch1, Branch $branch2): void
+    {
+        $admin = Auth::user();
+        $asset1 = Asset::first();
+
+        $records = [
+            [
+                'nop' => '31.71.010.001.001-0001.0',
+                'alamat_op' => 'Jl. Tebet Barat Raya No. 45',
+                'desa' => 'Tebet Barat',
+                'kecamatan' => 'Tebet',
+                'kota_kab' => 'Jakarta Selatan',
+                'nama_wp' => 'PT Dian Mustika Pratama',
+                'npwp' => '01.234.567.8-015.000',
+                'tahun' => (int) date('Y'),
+                'luas_bumi' => 450.00,
+                'luas_bangunan' => 380.00,
+                'pajak' => 18500000.00,
+                'sppt_yg_dibayar' => 18500000.00,
+                'tgl_bayar' => now()->subMonths(2)->toDateString(),
+                'status_bayar' => 'LUNAS',
+                'branch_id' => $branch1->id,
+                'asset_id' => $asset1?->id,
+                'keterangan' => 'Gedung Utama Dian Mustika Tebet (Lunas via Bank DKI)',
+                'created_by' => $admin?->id,
+            ],
+            [
+                'nop' => '31.74.050.003.012-0045.0',
+                'alamat_op' => 'Jl. RS Fatmawati No. 88',
+                'desa' => 'Cilandak Barat',
+                'kecamatan' => 'Cilandak',
+                'kota_kab' => 'Jakarta Selatan',
+                'nama_wp' => 'Dian Mustika Wellness Center',
+                'npwp' => '01.234.567.8-015.000',
+                'tahun' => (int) date('Y'),
+                'luas_bumi' => 320.00,
+                'luas_bangunan' => 260.00,
+                'pajak' => 12400000.00,
+                'sppt_yg_dibayar' => 0.00,
+                'tgl_bayar' => null,
+                'status_bayar' => 'BELUM_LUNAS',
+                'branch_id' => $branch2->id,
+                'asset_id' => null,
+                'keterangan' => 'Gedung Operasional Cabang Selatan (Jatuh tempo 31 Agustus)',
+                'created_by' => $admin?->id,
+            ],
+            [
+                'nop' => '32.73.010.004.015-0088.0',
+                'alamat_op' => 'Jl. Raya Pajajaran No. 12',
+                'desa' => 'Bantarjati',
+                'kecamatan' => 'Bogor Utara',
+                'kota_kab' => 'Kota Bogor',
+                'nama_wp' => 'Dra. Hj. Dian Mustika',
+                'npwp' => '08.765.432.1-404.000',
+                'tahun' => (int) date('Y'),
+                'luas_bumi' => 600.00,
+                'luas_bangunan' => 450.00,
+                'pajak' => 9750000.00,
+                'sppt_yg_dibayar' => 5000000.00,
+                'tgl_bayar' => now()->subWeeks(3)->toDateString(),
+                'status_bayar' => 'KURANG_BAYAR',
+                'branch_id' => null,
+                'asset_id' => null,
+                'keterangan' => 'Ruko Pusat Training & Diklat Terapis (Pembayaran cicilan 1)',
+                'created_by' => $admin?->id,
+            ],
+            [
+                'nop' => '31.71.010.001.001-0001.0',
+                'alamat_op' => 'Jl. Tebet Barat Raya No. 45',
+                'desa' => 'Tebet Barat',
+                'kecamatan' => 'Tebet',
+                'kota_kab' => 'Jakarta Selatan',
+                'nama_wp' => 'PT Dian Mustika Pratama',
+                'npwp' => '01.234.567.8-015.000',
+                'tahun' => (int) date('Y') - 1,
+                'luas_bumi' => 450.00,
+                'luas_bangunan' => 380.00,
+                'pajak' => 17200000.00,
+                'sppt_yg_dibayar' => 17200000.00,
+                'tgl_bayar' => now()->subYear()->toDateString(),
+                'status_bayar' => 'LUNAS',
+                'branch_id' => $branch1->id,
+                'asset_id' => $asset1?->id,
+                'keterangan' => 'Gedung Utama Dian Mustika Tebet (Histori Tahun Lalu - Lunas)',
+                'created_by' => $admin?->id,
+            ],
+        ];
+
+        foreach ($records as $rec) {
+            PropertyTax::updateOrCreate(
+                ['nop' => $rec['nop'], 'tahun' => $rec['tahun']],
+                $rec
+            );
         }
     }
 

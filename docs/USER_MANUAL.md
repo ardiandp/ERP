@@ -215,6 +215,12 @@ Setiap staf/terapis dapat masuk menggunakan akun masing-masing untuk mengakses p
    - Buka **Rekonsiliasi Bank** (`/bank-reconciliations`) untuk mencocokkan mutasi debit/kredit bank dengan transaksi pembayaran POS atau tagihan vendor.
 4. **Pengelolaan Tagihan Berkala (Bills)**:
    - Konfigurasikan template tagihan berulang (sewa gedung tahunan, internet bulanan, iuran kebersihan) pada menu **Tagihan** (`/bills`).
+5. **Pajak Bumi & Bangunan (PBB)** (`/property-taxes`):
+   - Pengelolaan SPPT PBB massal untuk aset tanah dan bangunan seluruh cabang.
+   - Status bayar otomatis (`LUNAS`, `KURANG_BAYAR`, `BELUM_LUNAS`) berdasarkan ketetapan pajak dan realisasi pembayaran.
+   - Fitur **Import CSV Massal** dan **Template CSV** untuk migrasi data dari aplikasi sebelumnya dalam jumlah besar.
+   - Fitur **Export CSV** dan **Cetak Lembar Informasi SPPT Resmi**.
+   - Lampiran unggah file bukti bayar / scan STTS.
 
 ---
 

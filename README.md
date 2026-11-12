@@ -3,7 +3,7 @@
 
 [![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
-[![Tests](https://img.shields.io/badge/Tests-66%20Passed%20(385%20assertions)-brightgreen?style=for-the-badge)]()
+[![Tests](https://img.shields.io/badge/Tests-74%20Passed%20(420%20assertions)-brightgreen?style=for-the-badge)]()
 [![Code Style](https://img.shields.io/badge/Pint-PSR--12%20Clean-success?style=for-the-badge)]()
 
 **ERP Dian Mustika** adalah sistem informasi manajemen enterprise berbasis web modular untuk mengintegrasikan seluruh operasional klinik kecantikan, spa, salon, dan pusat relaksasi Dian Mustika secara multi-cabang.
@@ -45,6 +45,12 @@
 - **Keuangan, Kas Operasional & Rekonsiliasi Bank**:
   - Kas kecil operasional cabang, pencatatan mutasi rekening bank, dan mesin rekonsiliasi otomatis antara transaksi bank dan invoice penjualan.
   - Manajemen tagihan berkala (listrik, internet, sewa gedung, BPJS).
+- **Pajak Bumi & Bangunan (PBB)**:
+  - Pendataan massal SPPT PBB tanah dan bangunan operasional cabang & pusat.
+  - Perhitungan status bayar otomatis (`LUNAS`, `KURANG_BAYAR`, `BELUM_LUNAS`) dan sisa tunggakan real-time.
+  - Fitur **Import CSV Massal** & **Template CSV** untuk migrasi data volume besar dari aplikasi sebelumnya.
+  - Fitur **Export CSV** & **Cetak Lembar Informasi SPPT Resmi**.
+  - Lampiran berkas bukti pembayaran / scan STTS.
 - **18 Modul Laporan Eksekutif & Ekspor Data**:
   - Laporan analitis penjualan, inventori, keuangan, SDM, dan pelanggan.
   - Fitur **Cetak Laporan Format PDF** dan **Export CSV/Excel**.

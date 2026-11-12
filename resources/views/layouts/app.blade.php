@@ -168,6 +168,7 @@
                             <li class="sidebar-item"><a href="{{ route('bank-reconciliations.index') }}" class="sidebar-link"><i class="mdi mdi-checkbox-multiple-marked-outline"></i><span class="hide-menu">Reconciliations</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('bills.index') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu">Bills</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('bill-templates.index') }}" class="sidebar-link"><i class="mdi mdi-file-outline"></i><span class="hide-menu">Bill Templates</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('property-taxes.index') }}" class="sidebar-link"><i class="mdi mdi-home-currency-usd"></i><span class="hide-menu">Pajak PBB</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('masterdata.index', 'expense-categories') }}" class="sidebar-link"><i class="mdi mdi-tag-text-outline"></i><span class="hide-menu">Expense Categories</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('expenses.index') }}" class="sidebar-link"><i class="mdi mdi-cash-minus"></i><span class="hide-menu">Expenses</span></a></li>
                         </ul>
@@ -179,6 +180,7 @@
                         </a>
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item"><a href="{{ route('assets.index') }}" class="sidebar-link"><i class="mdi mdi-desktop-classic"></i><span class="hide-menu">Assets</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('property-taxes.index') }}" class="sidebar-link"><i class="mdi mdi-home-currency-usd"></i><span class="hide-menu">Pajak PBB</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('media.index') }}" class="sidebar-link"><i class="mdi mdi-image-multiple"></i><span class="hide-menu">Media Files</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('digital-accounts.index') }}" class="sidebar-link"><i class="mdi mdi-key-variant"></i><span class="hide-menu">Digital Accounts</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('masterdata.index', 'asset-categories') }}" class="sidebar-link"><i class="mdi mdi-shape-outline"></i><span class="hide-menu">Asset Categories</span></a></li>
