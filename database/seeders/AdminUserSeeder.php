@@ -13,6 +13,8 @@ class AdminUserSeeder extends Seeder
     {
         $ownerRole = Role::where('name', 'owner')->first();
         $adminRole = Role::where('name', 'admin')->first();
+        $managerRole = Role::where('name', 'branch-manager')->first() ?? $adminRole;
+        $staffRole = Role::where('name', 'staff')->first() ?? $adminRole;
 
         $owner = User::updateOrCreate(
             ['email' => 'owner@dianmustika.test'],
@@ -31,6 +33,24 @@ class AdminUserSeeder extends Seeder
         }
         if ($ownerRole) {
             $admin->roles()->syncWithoutDetaching([$ownerRole->id]);
+        }
+
+        $demoUsers = [
+            ['email' => 'manager.cabang@dianmustika.test', 'name' => 'Manager Cabang', 'role' => $managerRole],
+            ['email' => 'kasir@dianmustika.test', 'name' => 'Kasir Dian Mustika', 'role' => $staffRole],
+            ['email' => 'terapis@dianmustika.test', 'name' => 'Terapis Dian Mustika', 'role' => $staffRole],
+            ['email' => 'finance@dianmustika.test', 'name' => 'Finance & Accounting', 'role' => $staffRole],
+            ['email' => 'hrd@dianmustika.test', 'name' => 'HR & Payroll Staff', 'role' => $staffRole],
+        ];
+
+        foreach ($demoUsers as $du) {
+            $u = User::updateOrCreate(
+                ['email' => $du['email']],
+                ['name' => $du['name'], 'password' => Hash::make('password'), 'status' => 'ACTIVE']
+            );
+            if ($du['role']) {
+                $u->roles()->syncWithoutDetaching([$du['role']->id]);
+            }
         }
     }
 }
