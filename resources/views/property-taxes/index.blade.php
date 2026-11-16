@@ -141,7 +141,7 @@
 <div class="card border shadow-sm">
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover table-striped align-middle mb-0" style="font-size: 13px;">
+            <table class="table table-hover table-striped align-middle mb-0 no-datatable" style="font-size: 13px;">
                 <thead class="table-light">
                     <tr>
                         <th style="width: 50px;" class="text-center">No</th>
@@ -236,9 +236,13 @@
     </div>
     @if($propertyTaxes->hasPages())
     <div class="card-footer bg-white border-top py-2 px-3">
-        <div class="d-flex justify-content-between align-items-center">
-            <small class="text-muted">Menampilkan {{ $propertyTaxes->firstItem() }} s/d {{ $propertyTaxes->lastItem() }} dari {{ $propertyTaxes->total() }} data</small>
-            {{ $propertyTaxes->links() }}
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <small class="text-muted mb-1 mb-md-0">
+                Menampilkan <strong>{{ $propertyTaxes->firstItem() }}</strong> s/d <strong>{{ $propertyTaxes->lastItem() }}</strong> dari <strong>{{ $propertyTaxes->total() }}</strong> total data
+            </small>
+            <div class="d-flex align-items-center">
+                {{ $propertyTaxes->links() }}
+            </div>
         </div>
     </div>
     @endif

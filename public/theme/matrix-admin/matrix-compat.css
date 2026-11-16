@@ -137,3 +137,36 @@ body,
 .page-wrapper {
     background-color: #ffffff;
 }
+
+/* ---------- Pagination (Laravel Bootstrap 4) ---------- */
+.pagination {
+    margin-bottom: 0 !important;
+}
+
+.pagination .page-link {
+    color: #2962ff;
+    padding: .35rem .75rem;
+    font-size: .875rem;
+    border-color: #dee2e6;
+    background-color: #fff;
+    line-height: 1.5;
+}
+
+.pagination .page-link:hover {
+    color: #1a4cd2;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #2962ff;
+    border-color: #2962ff;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #adb5bd;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}

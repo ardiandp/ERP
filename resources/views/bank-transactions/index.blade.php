@@ -183,7 +183,7 @@
 <div class="card border shadow-sm">
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover table-striped align-middle mb-0" style="font-size: 13px;">
+            <table class="table table-hover table-striped align-middle mb-0 no-datatable" style="font-size: 13px;">
                 <thead class="table-light">
                     <tr>
                         <th style="width: 40px;" class="text-center">No</th>
@@ -276,9 +276,13 @@
     </div>
     @if($transactions->hasPages())
     <div class="card-footer bg-white border-top py-2 px-3">
-        <div class="d-flex justify-content-between align-items-center">
-            <small class="text-muted">Menampilkan {{ $transactions->firstItem() }} s/d {{ $transactions->lastItem() }} dari {{ $transactions->total() }} mutasi</small>
-            {{ $transactions->links() }}
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <small class="text-muted mb-1 mb-md-0">
+                Menampilkan <strong>{{ $transactions->firstItem() }}</strong> s/d <strong>{{ $transactions->lastItem() }}</strong> dari <strong>{{ $transactions->total() }}</strong> total mutasi
+            </small>
+            <div class="d-flex align-items-center">
+                {{ $transactions->links() }}
+            </div>
         </div>
     </div>
     @endif
