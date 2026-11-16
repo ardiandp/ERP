@@ -226,4 +226,39 @@ class BcaStatementImportTest extends TestCase
             'opening_balance' => 1500000,
         ]);
     }
+
+    public function test_bank_transactions_search_by_description_and_amount(): void
+    {
+        $account = FinancialAccount::firstOrFail();
+
+        $account->bankTransactions()->create([
+            'transaction_date' => '2026-02-10',
+            'transaction_type' => 'IN',
+            'amount' => 1234567,
+            'description' => 'Pembayaran Paket Spa Melati',
+            'reference_number' => 'REF-9988',
+            'reconciliation_status' => 'UNRECONCILED',
+        ]);
+
+        // Search by description keyword
+        $respDesc = $this->actingAs($this->admin)->get(route('bank-transactions.index', [
+            'search' => 'Paket Spa Melati',
+        ]));
+        $respDesc->assertOk();
+        $respDesc->assertSee('Pembayaran Paket Spa Melati');
+
+        // Search by amount
+        $respAmount = $this->actingAs($this->admin)->get(route('bank-transactions.index', [
+            'search' => '1234567',
+        ]));
+        $respAmount->assertOk();
+        $respAmount->assertSee('Pembayaran Paket Spa Melati');
+
+        // Search by reference
+        $respRef = $this->actingAs($this->admin)->get(route('bank-transactions.index', [
+            'search' => 'REF-9988',
+        ]));
+        $respRef->assertOk();
+        $respRef->assertSee('REF-9988');
+    }
 }

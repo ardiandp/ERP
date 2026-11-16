@@ -166,13 +166,20 @@
                 <input type="date" name="to" class="form-control form-control-sm" value="{{ $filters['to'] }}">
             </div>
             <div class="col-md-3">
-                <label class="form-label small fw-bold text-muted mb-1">Pencarian Keterangan / Referensi</label>
-                <input type="text" name="search" class="form-control form-control-sm" placeholder="Nama, berita transfer, no. ref..." value="{{ $filters['search'] }}">
+                <label class="form-label small fw-bold text-muted mb-1">Pencarian Data Mutasi</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" name="search" class="form-control" placeholder="Nama, berita, nominal Rp, no. ref..." value="{{ $filters['search'] }}">
+                    @if(request('search'))
+                    <div class="input-group-append">
+                        <a href="{{ route('bank-transactions.index', array_merge(request()->except('search', 'page'), $selectedAccountId ? ['financial_account_id' => $selectedAccountId] : [])) }}" class="btn btn-outline-secondary" title="Hapus pencarian"><i class="mdi mdi-close"></i></a>
+                    </div>
+                    @endif
+                </div>
             </div>
             <div class="col-md-1 d-flex gap-1">
-                <button type="submit" class="btn btn-primary btn-sm w-100" title="Terapkan Filter"><i class="mdi mdi-magnify"></i></button>
+                <button type="submit" class="btn btn-primary btn-sm w-100" title="Terapkan Filter"><i class="mdi mdi-magnify"></i> Cari</button>
                 @if(request()->anyFilled(['status', 'transaction_type', 'from', 'to', 'search']))
-                <a href="{{ route('bank-transactions.index', $selectedAccountId ? ['financial_account_id' => $selectedAccountId] : []) }}" class="btn btn-outline-secondary btn-sm" title="Reset Filter"><i class="mdi mdi-refresh"></i></a>
+                <a href="{{ route('bank-transactions.index', $selectedAccountId ? ['financial_account_id' => $selectedAccountId] : []) }}" class="btn btn-outline-secondary btn-sm" title="Reset Semua Filter"><i class="mdi mdi-refresh"></i></a>
                 @endif
             </div>
         </form>
@@ -181,9 +188,38 @@
 
 <!-- Transactions Table -->
 <div class="card border shadow-sm">
+    <div class="card-header bg-white py-2 px-3 border-bottom">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-2 mb-md-0 d-flex align-items-center flex-wrap gap-2">
+                <h6 class="mb-0 fw-bold text-dark me-1">
+                    <i class="mdi mdi-table text-primary"></i> Data Mutasi
+                </h6>
+                @if(request('search'))
+                    <span class="badge bg-primary text-white">
+                        <i class="mdi mdi-database-search"></i> Database: "{{ request('search') }}"
+                        <a href="{{ route('bank-transactions.index', array_merge(request()->except('search', 'page'), $selectedAccountId ? ['financial_account_id' => $selectedAccountId] : [])) }}" class="text-white ms-1 text-decoration-none" title="Hapus pencarian">&times;</a>
+                    </span>
+                @endif
+                <span id="quickSearchMatchCount" class="badge bg-light text-muted border" style="display: none;"></span>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="d-inline-flex align-items-center" style="max-width: 320px; width: 100%;">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-light border-right-0"><i class="mdi mdi-magnify text-muted"></i></span>
+                        </div>
+                        <input type="text" id="quickTableSearch" class="form-control border-left-0" placeholder="Filter cepat baris tabel ini..." autocomplete="off">
+                        <div class="input-group-append" id="quickSearchClearBtn" style="display: none;">
+                            <button class="btn btn-outline-secondary" type="button" title="Bersihkan filter"><i class="mdi mdi-close"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover table-striped align-middle mb-0 no-datatable" style="font-size: 13px;">
+            <table id="bankTransactionsTable" class="table table-hover table-striped align-middle mb-0 no-datatable" style="font-size: 13px;">
                 <thead class="table-light">
                     <tr>
                         <th style="width: 40px;" class="text-center">No</th>
@@ -260,6 +296,17 @@
                             @else
                             <span class="text-success small"><i class="mdi mdi-check-all"></i> Terhubung</span>
                             @endif
+                        </td>
+                    </tr>
+                    <tr id="noFilterMatchRow" class="no-filter-row" style="display: none;">
+                        <td colspan="{{ $selectedAccountId ? 8 : 9 }}" class="text-center py-4 bg-light text-muted">
+                            <i class="mdi mdi-file-search-outline mdi-36px d-block mb-1 text-primary"></i>
+                            <span>Tidak ada mutasi yang cocok dengan kata kunci "<strong id="noFilterQueryText"></strong>" di halaman ini.</span>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-sm btn-primary" id="btnSearchAllPages">
+                                    <i class="mdi mdi-database-search"></i> Cari di Seluruh Database
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -406,6 +453,63 @@ $(document).ready(function() {
     $('#btnTambahRekening, [data-target="#modalTambahRekening"], [data-bs-target="#modalTambahRekening"]').on('click', function(e) {
         e.preventDefault();
         $('#modalTambahRekening').modal('show');
+    });
+
+    // Quick Live Search on current table rows
+    var $tableRows = $('#bankTransactionsTable tbody tr:not(.no-filter-row)');
+    $('#quickTableSearch').on('keyup input', function() {
+        var query = $(this).val().toLowerCase().trim();
+        var matches = 0;
+
+        if (query.length > 0) {
+            $('#quickSearchClearBtn').show();
+            $tableRows.each(function() {
+                var text = $(this).text().toLowerCase();
+                if (text.indexOf(query) !== -1) {
+                    $(this).show();
+                    matches++;
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            $('#quickSearchMatchCount').show().text(matches + ' baris cocok di halaman ini');
+
+            if (matches === 0) {
+                $('#noFilterQueryText').text(query);
+                $('#noFilterMatchRow').show();
+            } else {
+                $('#noFilterMatchRow').hide();
+            }
+        } else {
+            $('#quickSearchClearBtn').hide();
+            $('#quickSearchMatchCount').hide();
+            $('#noFilterMatchRow').hide();
+            $tableRows.show();
+        }
+    });
+
+    // Clear quick search
+    $('#quickSearchClearBtn button').on('click', function() {
+        $('#quickTableSearch').val('').trigger('input').focus();
+    });
+
+    // Pressing Enter triggers server-side search across all database records
+    $('#quickTableSearch').on('keypress', function(e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            var val = $(this).val().trim();
+            $('input[name="search"]').val(val);
+            $('input[name="search"]').closest('form').submit();
+        }
+    });
+
+    // Search all pages button click
+    $(document).on('click', '#btnSearchAllPages', function(e) {
+        e.preventDefault();
+        var val = $('#quickTableSearch').val().trim();
+        $('input[name="search"]').val(val);
+        $('input[name="search"]').closest('form').submit();
     });
 });
 </script>

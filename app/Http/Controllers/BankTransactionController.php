@@ -24,10 +24,30 @@ class BankTransactionController extends Controller
             ->when($request->filled('from'), fn ($q) => $q->where('transaction_date', '>=', $request->input('from')))
             ->when($request->filled('to'), fn ($q) => $q->where('transaction_date', '<=', $request->input('to')))
             ->when($request->filled('search'), function ($q) use ($request) {
-                $term = '%'.$request->input('search').'%';
-                $q->where(function ($sub) use ($term) {
+                $raw = trim($request->input('search'));
+                $term = '%'.$raw.'%';
+                $cleanNum = str_replace(['.', ',', ' '], '', $raw);
+
+                $q->where(function ($sub) use ($term, $raw, $cleanNum) {
                     $sub->where('description', 'like', $term)
-                        ->orWhere('reference_number', 'like', $term);
+                        ->orWhere('reference_number', 'like', $term)
+                        ->orWhere('external_reference', 'like', $term)
+                        ->orWhereHas('financialAccount', function ($accQ) use ($term) {
+                            $accQ->where('account_name', 'like', $term)
+                                ->orWhere('account_number', 'like', $term);
+                        });
+
+                    if (is_numeric($cleanNum) && strlen($cleanNum) >= 2) {
+                        $sub->orWhere('amount', '=', (float) $cleanNum)
+                            ->orWhere('amount', 'like', '%'.$cleanNum.'%')
+                            ->orWhere('balance', '=', (float) $cleanNum)
+                            ->orWhere('balance', 'like', '%'.$cleanNum.'%');
+                    }
+
+                    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $raw) || preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $raw)) {
+                        $parsedDate = date('Y-m-d', strtotime(str_replace('/', '-', $raw)));
+                        $sub->orWhereDate('transaction_date', $parsedDate);
+                    }
                 });
             });
 
