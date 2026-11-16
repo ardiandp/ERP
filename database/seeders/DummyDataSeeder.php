@@ -385,16 +385,31 @@ class DummyDataSeeder extends Seeder
                 );
             }
 
-            if ($index % 3 === 0) {
+            if ($index % 2 === 0) {
                 EmployeeInsurance::updateOrCreate(
                     ['employee_id' => $employee->id, 'insurance_type' => 'BPJS_KES'],
                     [
                         'provider' => 'BPJS Kesehatan',
-                        'membership_number' => '000'.str_pad((string) ($index + 1), 7, '0', STR_PAD_LEFT),
-                        'insurance_class' => '2',
+                        'membership_number' => '000'.str_pad((string) ($index + 1), 8, '0', STR_PAD_LEFT),
+                        'insurance_class' => ($index % 4 === 0 ? '1' : '2'),
                         'start_date' => now()->subMonths(6)->startOfMonth()->toDateString(),
-                        'employee_contribution' => 50000,
-                        'company_contribution' => 100000,
+                        'employee_contribution' => 45000,
+                        'company_contribution' => 180000,
+                        'status' => 'ACTIVE',
+                    ],
+                );
+            }
+
+            if ($index % 3 === 0 || $index % 4 === 0) {
+                EmployeeInsurance::updateOrCreate(
+                    ['employee_id' => $employee->id, 'insurance_type' => 'BPJS_TK'],
+                    [
+                        'provider' => 'BPJS Ketenagakerjaan',
+                        'membership_number' => '220'.str_pad((string) ($index + 10), 8, '0', STR_PAD_LEFT),
+                        'insurance_class' => null,
+                        'start_date' => now()->subMonths(6)->startOfMonth()->toDateString(),
+                        'employee_contribution' => 90000,
+                        'company_contribution' => 240000,
                         'status' => 'ACTIVE',
                     ],
                 );

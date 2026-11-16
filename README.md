@@ -36,7 +36,8 @@
   - Cetak **Surat Pesanan PO resmi** dengan data rekening bank supplier dan tanda tangan otorisasi.
   - Penerimaan barang (Goods Receipt) dengan pembaruan otomatis kartu stok.
 - **SDM & Payroll Terintegrasi**:
-  - Manajemen data karyawan, keluarga, BPJS, penempatan cabang, absensi, dan jam lembur.
+  - Manajemen data karyawan, keluarga, penempatan cabang, absensi, dan jam lembur.
+  - **Rekapitulasi & Pendataan BPJS Karyawan (`/hr/bpjs`)**: Dashboard monitoring kepesertaan BPJS Kesehatan & BPJS Ketenagakerjaan, kartu ringkasan KPI, modal kelola nomor kartu, kelas rawat, nominal iuran potongan & subsidi, live table search, dan ekspor CSV.
   - **Komisi Terapis Otomatis**: Layanan treatment yang diselesaikan di POS otomatis dikreditkan sebagai komisi terapis dan ditarik langsung ke payroll periode terkait.
   - Penyesuaian manual (bonus & potongan kasbon).
   - Cetak **Slip Gaji resmi berlogo Dian Mustika** dengan kode verifikasi unik.

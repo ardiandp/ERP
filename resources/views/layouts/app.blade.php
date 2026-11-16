@@ -150,6 +150,7 @@
                             <li class="sidebar-item"><a href="{{ route('shifts.index') }}" class="sidebar-link"><i class="mdi mdi-clock-outline"></i><span class="hide-menu">Shifts</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('attendances.index') }}" class="sidebar-link"><i class="mdi mdi-calendar-clock"></i><span class="hide-menu">Attendances</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('overtimes.index') }}" class="sidebar-link"><i class="mdi mdi-timer-sand"></i><span class="hide-menu">Overtime</span></a></li>
+                            <li class="sidebar-item"><a href="{{ route('hr.bpjs.index') }}" class="sidebar-link"><i class="mdi mdi-shield-account"></i><span class="hide-menu">Rekap BPJS</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('salary-structures.index') }}" class="sidebar-link"><i class="mdi mdi-cash"></i><span class="hide-menu">Salary Structures</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('masterdata.index', 'salary-components') }}" class="sidebar-link"><i class="mdi mdi-cash-plus"></i><span class="hide-menu">Salary Components</span></a></li>
                             <li class="sidebar-item"><a href="{{ route('payroll-periods.index') }}" class="sidebar-link"><i class="mdi mdi-calendar-range"></i><span class="hide-menu">Payroll Periods</span></a></li>

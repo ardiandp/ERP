@@ -30,7 +30,12 @@
                 @endforelse
             </tbody>
         </table>
-        <h6>BPJS / Asuransi</h6>
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            <h6 class="mb-0">BPJS / Asuransi</h6>
+            <a href="{{ route('hr.bpjs.index', ['search' => $employee->employee_code]) }}" class="btn btn-outline-primary btn-sm py-0 px-2" style="font-size: 11px;">
+                <i class="mdi mdi-shield-account"></i> Kelola BPJS
+            </a>
+        </div>
         <table class="table table-sm table-bordered">
             <thead><tr><th>Jenis</th><th>Provider</th><th>No. Peserta</th></tr></thead>
             <tbody>

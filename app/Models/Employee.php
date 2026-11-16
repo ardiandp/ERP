@@ -48,6 +48,20 @@ class Employee extends Model
         return $this->hasMany(EmployeeInsurance::class);
     }
 
+    public function getBpjsKesAttribute(): ?EmployeeInsurance
+    {
+        return $this->relationLoaded('insurances')
+            ? $this->insurances->firstWhere('insurance_type', 'BPJS_KES')
+            : $this->insurances()->where('insurance_type', 'BPJS_KES')->first();
+    }
+
+    public function getBpjsTkAttribute(): ?EmployeeInsurance
+    {
+        return $this->relationLoaded('insurances')
+            ? $this->insurances->firstWhere('insurance_type', 'BPJS_TK')
+            : $this->insurances()->where('insurance_type', 'BPJS_TK')->first();
+    }
+
     public function commissions()
     {
         return $this->hasMany(EmployeeCommission::class);

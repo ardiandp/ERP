@@ -192,6 +192,12 @@ Setiap item menyediakan tombol **Setujui (Approve)** dan **Tolak (Reject)** dise
    - Setujui payroll pada layar persetujuan.
    - Terbitkan slip gaji (`/payslips`).
    - Klik **"Cetak Slip Gaji"** (`/payslips/{id}/print`) untuk mencetak dokumen slip gaji resmi berlogo Dian Mustika lengkap dengan kode verifikasi integritas.
+6. **Rekapitulasi Kepesertaan BPJS Karyawan** (`/hr/bpjs`):
+   - Monitoring terpadu kepesertaan **BPJS Kesehatan** (No. Kartu, Kelas Rawat 1/2/3, tanggal aktif) dan **BPJS Ketenagakerjaan** (No. KPJ, tanggal aktif) seluruh staf.
+   - **Kartu Ringkasan KPI**: Menampilkan total staf aktif, persentase kepesertaan BPJS Kes, persentase BPJS TK, staf yang belum terdaftar, dan estimasi total iuran bulanan.
+   - **Kelola Data BPJS**: Tombol aksi per baris membuka modal form instan untuk mengupdate nomor kartu peserta, kelas rawat, status aktif/nonaktif, serta nominal iuran potongan karyawan dan subsidi perusahaan.
+   - **Filter & Quick Search**: Menyaring data per cabang, status kepesertaan (Lengkap Kes & TK, Hanya Kes, Hanya TK, Belum Terdaftar), serta live search instan di tabel tanpa reload.
+   - **Ekspor CSV**: Mengunduh rekapitulasi data kepesertaan BPJS karyawan ke format CSV untuk keperluan pelaporan eksekutif atau rekonsiliasi pembayaran.
 
 ---
 

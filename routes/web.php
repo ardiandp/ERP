@@ -22,6 +22,7 @@ use App\Http\Controllers\EmployeePortalController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\GoodsReceiptController;
+use App\Http\Controllers\HrBpjsController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MasterCrudController;
 use App\Http\Controllers\MediaFileController;
@@ -175,6 +176,10 @@ Route::middleware('auth')->group(function () {
     Route::get('overtimes/create', [OvertimeController::class, 'create'])->name('overtimes.create');
     Route::post('overtimes', [OvertimeController::class, 'store'])->name('overtimes.store');
     Route::patch('overtimes/{overtime}/approve', [OvertimeController::class, 'approve'])->name('overtimes.approve');
+
+    Route::get('hr/bpjs', [HrBpjsController::class, 'index'])->name('hr.bpjs.index');
+    Route::get('hr/bpjs/export', [HrBpjsController::class, 'export'])->name('hr.bpjs.export');
+    Route::put('hr/bpjs/{employee}', [HrBpjsController::class, 'update'])->name('hr.bpjs.update');
 
     Route::get('salary-structures', [SalaryStructureController::class, 'index'])->name('salary-structures.index');
     Route::get('salary-structures/create', [SalaryStructureController::class, 'create'])->name('salary-structures.create');

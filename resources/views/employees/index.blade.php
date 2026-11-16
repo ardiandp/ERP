@@ -2,7 +2,10 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>Employees</h4>
-    <a href="{{ route('employees.create') }}" class="btn btn-primary btn-sm">Tambah</a>
+    <div>
+        <a href="{{ route('hr.bpjs.index') }}" class="btn btn-outline-info btn-sm me-1"><i class="mdi mdi-shield-account"></i> Rekap BPJS</a>
+        <a href="{{ route('employees.create') }}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i> Tambah</a>
+    </div>
 </div>
 <table class="table table-striped">
     <thead><tr><th>Code</th><th>Name</th><th>Branch</th><th>Department</th><th>Position</th><th>Status</th><th></th></tr></thead>
